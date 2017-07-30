@@ -12,6 +12,105 @@ import minicraft.gfx.Sprite;
 import minicraft.item.Item;
 import minicraft.level.Level;
 
+public enum Tile {
+	HOLE () {
+	
+	},
+	
+	DIRT () {
+		
+	},
+	
+	GRASS () {
+		
+	},
+	
+	SAND () {
+		
+	},
+	
+	STAIRS () {
+		
+	},
+	
+	ROCK () {
+		
+	},
+	
+	HARDROCK () {
+		
+	},
+	
+	WATER () {
+		
+	},
+	
+	LAVA () {
+		
+	},
+	
+	TREE () {
+		
+	},
+	
+	CACTUS () {
+		
+	},
+	
+	FLOWER () {
+		
+	},
+	
+	SAPLING () {
+		
+	},
+	
+	ORE () {
+		
+	},
+	
+	FARM () {
+		
+	},
+	
+	WHEAT () {
+		
+	},
+	
+	FLOOR () {
+		
+	},
+	
+	WALL () {
+		
+	},
+	
+	DOOR () {
+		
+	},
+	
+	INFINITEFALL () {
+		
+	},
+	
+	WOOL () {
+		
+	},
+	
+	LAVABRICK () {
+		
+	},
+	
+	TORCH () {
+		
+	};
+	
+	
+	private Tile() {
+	
+	}
+}
+
 public abstract class Tile {
 	public static int tickCount = 0; //A global tickCount used in the Lava & water tiles.
 	protected Random random = new Random();
