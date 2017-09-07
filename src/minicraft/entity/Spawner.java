@@ -6,7 +6,7 @@ import minicraft.Sound;
 import minicraft.entity.particle.FireParticle;
 import minicraft.entity.particle.TextParticle;
 import minicraft.gfx.Color;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.item.FurnitureItem;
 import minicraft.item.Item;
 import minicraft.item.PotionType;
@@ -29,7 +29,7 @@ public class Spawner extends Furniture {
 	
 	private void initMob(MobAi m) {
 		mob = m;
-		sprite.color = col = mob.col;
+		sprite.setColor(col = mob.col);
 		
 		if(m instanceof EnemyMob) {
 			lvl = ((EnemyMob)mob).lvl;
@@ -41,7 +41,7 @@ public class Spawner extends Furniture {
 	}
 	
 	public Spawner(MobAi m) {
-		super(getClassName(m.getClass()) + " Spawner", new Sprite(20, 8, 2, 2, m.col), 7, 2);
+		super(getClassName(m.getClass()) + " Spawner", new SpriteBuilder().setSx(20).setSy(8).setSw(2).setSh(2).setColor(m.col).createSprite(), 7, 2);
 		health = 100;
 		initMob(m);
 		resetSpawnInterval();
@@ -171,7 +171,7 @@ public class Spawner extends Furniture {
 		return new Spawner(mob);
 	}
 	
-	protected String getUpdateString() {
+	String getUpdateString() {
 		String updates = super.getUpdateString() + ";";
 		updates += "health,"+health+
 		";lvl,"+lvl;
@@ -179,7 +179,7 @@ public class Spawner extends Furniture {
 		return updates;
 	}
 	
-	protected boolean updateField(String field, String val) {
+	boolean updateField(String field, String val) {
 		if(super.updateField(field, val)) return true;
 		switch(field) {
 			case "health": health = Integer.parseInt(val); return true;

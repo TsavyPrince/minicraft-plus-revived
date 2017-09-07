@@ -14,6 +14,9 @@ public class ConnectorSprite {
 		
 	*/
 	
+	private boolean configured = false;
+	private Sprite current;
+	
 	public Sprite sparse, sides, full;
 	private Class<? extends Tile> owner;
 	private boolean checkCorners;
@@ -32,9 +35,18 @@ public class ConnectorSprite {
 		this(owner, sparse, sparse, full, false);
 	}
 	
-	public void render(Screen screen, Level level, int x, int y) { render(screen, level, x, y, sparse.color, sides.color, full.color); }
-	public void render(Screen screen, Level level, int x, int y, int colsparse, int colside, int colfull) {
+	public void render(Screen screen, Level level, int x, int y) {
+		if(!configured)
+			update(level, x, y, sparse.getColor(), sides.getColor(), full.getColor());
+		
+		current.render(screen, x, y);
+	}
+	
+	private void update(Level level, int x, int y, int colsparse, int colside, int colfull) {
 		//System.out.println("rendering sprite for tile " + owner);
+		current = new SpriteBuilder().setSx(0).setSy(0).setSw(2).setSh(2).createSprite();
+		
+		configured = true;
 		
 		Tile ut = level.getTile(x, y - 1);
 		Tile dt = level.getTile(x, y + 1);
@@ -70,17 +82,17 @@ public class ConnectorSprite {
 			if (ul || !checkCorners) full.renderPixel(1, 1, screen, x, y, colfull);
 			else sides.renderPixel(0, 0, screen, x, y, colside);
 		} else
-			sparse.renderPixel(l?1:2, u?1:2, screen, x, y, colsparse/*);Color.get(spc[0], spc[1], spc[2], Color.mixRGB(ut.getConnectColor(level), lt.getConnectColor(level)))*/);
+			sparse.renderPixel(u?1:2, l?1:2, screen, x, y, colsparse/*);Color.get(spc[0], spc[1], spc[2], Color.mixRGB(ut.getConnectColor(level), lt.getConnectColor(level)))*/);
 		
 		colsparse = orig;
 		colsparse = getSparseColor(ut, colsparse);
 		colsparse = getSparseColor(rt, colsparse);
 		
 		if (u && r) {
-			if (ur || !checkCorners) full.renderPixel(0, 1, screen, x+8, y, colfull);
-			else sides.renderPixel(1, 0, screen, x+8, y, colside);
+			if (ur || !checkCorners) full.renderPixel(1, 0, screen, x+8, y, colfull);
+			else sides.renderPixel(0, 1, screen, x+8, y, colside);
 		} else// if(!checkCorners)
-			sparse.renderPixel(r?1:0, u?1:2, screen, x+8, y, colsparse/*);Color.get(spc[0], spc[1], spc[2], Color.mixRGB(ut.getConnectColor(level), rt.getConnectColor(level)))*/);
+			sparse.renderPixel(u?1:2, r?1:0, screen, x+8, y, colsparse/*);Color.get(spc[0], spc[1], spc[2], Color.mixRGB(ut.getConnectColor(level), rt.getConnectColor(level)))*/);
 		//else // useful for trees
 		
 		colsparse = orig;
@@ -88,10 +100,10 @@ public class ConnectorSprite {
 		colsparse = getSparseColor(lt, colsparse);
 		
 		if (d && l) {
-			if (dl || !checkCorners) full.renderPixel(1, 0, screen, x, y+8, colfull);
-			else sides.renderPixel(0, 1, screen, x, y+8, colside);
+			if (dl || !checkCorners) full.renderPixel(0, 1, screen, x, y+8, colfull);
+			else sides.renderPixel(1, 0, screen, x, y+8, colside);
 		} else
-			sparse.renderPixel(l?1:2, d?1:0, screen, x, y+8, colsparse/*);Color.get(spc[0], spc[1], spc[2], Color.mixRGB(dt.getConnectColor(level), lt.getConnectColor(level)))*/);
+			sparse.renderPixel(d?1:0, l?1:2, screen, x, y+8, colsparse/*);Color.get(spc[0], spc[1], spc[2], Color.mixRGB(dt.getConnectColor(level), lt.getConnectColor(level)))*/);
 			
 		colsparse = orig;
 		colsparse = getSparseColor(dt, colsparse);
@@ -101,7 +113,7 @@ public class ConnectorSprite {
 			if (dr || !checkCorners) full.renderPixel(0, 0, screen, x+8, y+8, colfull);
 			else sides.renderPixel(1, 1, screen, x+8, y+8, colside);
 		} else
-			sparse.renderPixel(r?1:0, d?1:0, screen, x+8, y+8, colsparse/*);Color.get(spc[0], spc[1], spc[2], Color.mixRGB(dt.getConnectColor(level), rt.getConnectColor(level)))*/);
+			sparse.renderPixel(d?1:0, r?1:0, screen, x+8, y+8, colsparse/*);Color.get(spc[0], spc[1], spc[2], Color.mixRGB(dt.getConnectColor(level), rt.getConnectColor(level)))*/);
 		
 	}
 	
@@ -127,6 +139,6 @@ public class ConnectorSprite {
 			}
 		}
 		
-		return new Sprite(pixels, color);
+		return new SpriteBuilder().setPixels(pixels).setColor(color).createSprite();
 	}
 }

@@ -9,8 +9,8 @@ import minicraft.item.Item;
 import minicraft.item.StackableItem;
 
 public class InventoryMenu extends ScrollingMenu {
-	protected Inventory inv;
-	protected String title;
+	Inventory inv;
+	String title;
 	
 	private static List<String> getItemList(Inventory inv) {
 		List<Item> items = inv.getItems();

@@ -14,7 +14,7 @@ import minicraft.level.Level;
 
 public class WheatTile extends Tile {
 	
-	protected WheatTile(String name) {
+	WheatTile(String name) {
 		super(name, (Sprite)null);
 	}
 

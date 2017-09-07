@@ -13,14 +13,14 @@ import minicraft.screen.ModeMenu;
 
 public abstract class Mob extends Entity {
 	
-	protected MobSprite[][] sprites; // This contains all the mob's sprites, sorted first by direction (index corrosponding to the dir variable), and then by walk animation state.
+	MobSprite[][] sprites; // This contains all the mob's sprites, sorted first by direction (index corrosponding to the dir variable), and then by walk animation state.
 	public int walkDist = 0; // How far we've walked currently, incremented after each movement. This is used to change the sprite; "(walkDist >> 3) & 1" switches between a value of 0 and 1 every 8 increments of walkDist.
 	
 	public int dir = 0; // The direction the mob is facing, used in attacking and rendering. 0 is down, 1 is up, 2 is left, 3 is right
 	public int hurtTime = 0; // A delay after being hurt, that temporarily prevents further damage for a short time
-	protected int xKnockback, yKnockback; // The amount of vertical/horizontal knockback that needs to be inflicted, if it's not 0, it will be moved one pixel at a time.
+	int xKnockback, yKnockback; // The amount of vertical/horizontal knockback that needs to be inflicted, if it's not 0, it will be moved one pixel at a time.
 	public int health, maxHealth; // The amount of health we currently have, and the maximum.
-	protected int walkTime;
+	int walkTime;
 	public int speed;
 	public int tickTime = 0; // Incremented whenever tick() is called, is effectively the age in ticks
 	// TODO take all these swimTime, woolTime, and walkTime and consolidate into a getSlowness() method, that checks and adds each possible source of slowness and returns the result.
@@ -69,7 +69,7 @@ public abstract class Mob extends Entity {
 		}
 	}
 	
-	protected void die() { // Kill the mob, called when health drops to 0
+	void die() { // Kill the mob, called when health drops to 0
 		remove(); // Remove the mob, with the method inherited from Entity
 	}
 	
@@ -135,7 +135,7 @@ public abstract class Mob extends Entity {
 		return moved;
 	}
 
-	protected boolean isWooling() { // supposed to walk at half speed on wool
+	boolean isWooling() { // supposed to walk at half speed on wool
 		if(level == null) return false;
 		Tile tile = level.getTile(x >> 4, y >> 4);
 		return tile == Tiles.get("wool");
@@ -148,7 +148,7 @@ public abstract class Mob extends Entity {
 		return level.isLight(x>>4, y>>4);
 	}
 
-	protected boolean isSwimming() {
+	boolean isSwimming() {
 		if(level == null) return false;
 		Tile tile = level.getTile(x >> 4, y >> 4); // Get the tile the mob is standing on (at x/16, y/16)
 		return tile == Tiles.get("water") || tile == Tiles.get("lava"); // Check if the tile is liquid, and return true if so
@@ -171,7 +171,7 @@ public abstract class Mob extends Entity {
 		else doHurt(damage, attackDir); // Call the method that actually performs damage, and use our provided attackDir
 	}
 	
-	protected void doHurt(int damage, int attackDir) { // Actually hurt the mob, based on only damage and a direction
+	void doHurt(int damage, int attackDir) { // Actually hurt the mob, based on only damage and a direction
 		// this is overridden in Player.java
 		if (isRemoved() || hurtTime > 0) return; // If the mob has been hurt recently and hasn't cooled down, don't continue
 		
@@ -192,7 +192,7 @@ public abstract class Mob extends Entity {
 		if (health > maxHealth) health = maxHealth; // If our health has exceeded our maximum, lower it back down to said maximum
 	}
 	
-	protected static int getAttackDir(Entity attacker, Entity hurt) {
+	static int getAttackDir(Entity attacker, Entity hurt) {
 		/*
 		  Just a note here for reference:
 		  down = 0
@@ -221,7 +221,7 @@ public abstract class Mob extends Entity {
 		}
 	}
 	
-	protected String getUpdateString() {
+	String getUpdateString() {
 		String updates = super.getUpdateString() + ";";
 		updates += "dir,"+dir+
 		";health,"+health+
@@ -231,7 +231,7 @@ public abstract class Mob extends Entity {
 		return updates;
 	}
 	
-	protected boolean updateField(String field, String val) {
+	boolean updateField(String field, String val) {
 		if(field.equals("x") || field.equals("y")) walkDist++;
 		if(super.updateField(field, val)) return true;
 		switch(field) {

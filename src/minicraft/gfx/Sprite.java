@@ -16,10 +16,10 @@ public class Sprite {
 	static Random ran = new Random();
 	
 	public static Sprite missingTexture(int w, int h) {
-		return new Sprite(30, 30, w, h, Color.get(505, 505));
+		return new SpriteBuilder().setSx(30).setSy(30).setSw(w).setSh(h).setColor(Color.get(505, 505)).createSprite();
 	}
 	public static Sprite blank(int w, int h, int col) {
-		return new Sprite(7, 2, w, h, Color.get(col, col));
+		return new SpriteBuilder().setSx(7).setSy(2).setSw(w).setSh(h).setColor(Color.get(col, col)).createSprite();
 	}
 	
 	public static Sprite repeat(int sx, int sy, int w, int h, int col) {
@@ -34,9 +34,9 @@ public class Sprite {
 		return ConnectorSprite.makeSprite(2, 2, col, ran.nextInt(4), false, ran.nextInt(4), ran.nextInt(4), ran.nextInt(4), ran.nextInt(4));
 	}
 	
-	protected Px[][] spritePixels;
-	public int color;
-	protected Rectangle sheetLoc;
+	private Px[][] spritePixels;
+	private int color;
+	private Rectangle sheetLoc;
 	/// spritePixels is arranged so that the pixels are in their correct positions relative to the top left of the full sprite. This means that their render positions are built-in to the array.
 	
 	public Sprite(int pos, int color) {
@@ -54,7 +54,7 @@ public class Sprite {
 	public Sprite(int sx, int sy, int sw, int sh, int color, int mirror) {
 		this(sx, sy, sw, sh, color, mirror, false);}
 	public Sprite(int sx, int sy, int sw, int sh, int color, int mirror, boolean onepixel) {
-		this.color = color;
+		this.setColor(color);
 		sheetLoc = new Rectangle(sx, sy, sw, sh);
 		
 		spritePixels = new Px[sh][sw];
@@ -63,7 +63,7 @@ public class Sprite {
 				spritePixels[r][c] = new Px(sx+(onepixel?0:c), sy+(onepixel?0:r), mirror);
 	}
 	public Sprite(int sx, int sy, int sw, int sh, int color, boolean onepixel, int[][] mirrors) {
-		this.color = color;
+		this.setColor(color);
 		sheetLoc = new Rectangle(sx, sy, sw, sh);
 		
 		spritePixels = new Px[sh][sw];
@@ -75,25 +75,27 @@ public class Sprite {
 	public Sprite(Px[][] pixels) { this(pixels, 0); }
 	public Sprite(Px[][] pixels, int color) {
 		spritePixels = pixels;
-		this.color = color;
+		this.setColor(color);
 	}
 	
 	public int getPos() {
 		return sheetLoc.x + sheetLoc.y * 32;
 	}
-	public java.awt.Dimension getSize() {
+	/*public java.awt.Dimension getSize() {
 		return sheetLoc.getSize();
-	}
+	}*/
+	public int getSpriteWidth() { return sheetLoc.width; }
+	public int getSpriteHeight() { return sheetLoc.height; }
 	
-	public static int[][] fillArray(int value, int s1, int s2) {
+	/*public static int[][] fillArray(int value, int s1, int s2) {
 		int[][] values = new int[s1][s2];
 		System.out.println("filling array");
 		for(int i = 0; i < s1; i++)
 			java.util.Arrays.fill(values[i], value);
 		return values;
-	}
+	}*/
 	
-	public void render(Screen screen, int lvlx, int lvly) { render(screen, lvlx, lvly, color); }
+	public void render(Screen screen, int lvlx, int lvly) { render(screen, lvlx, lvly, getColor()); }
 	public void render(Screen screen, int lvlx, int lvly, int color) {
 		/// here, x and y are entity coordinates, I think.
 		
@@ -102,7 +104,7 @@ public class Sprite {
 		}
 	}
 	
-	public void renderRow(int r, Screen screen, int x, int y) { renderRow(r, screen, x, y, color); }
+	public void renderRow(int r, Screen screen, int x, int y) { renderRow(r, screen, x, y, getColor()); }
 	public void renderRow(int r, Screen screen, int x, int y, int color) {
 		Px[] row = spritePixels[r];
 		for(int c = 0; c < row.length; c++) { // loop across through each column
@@ -110,11 +112,13 @@ public class Sprite {
 		}
 	}
 	
-	protected void renderPixel(int c, int r, Screen screen, int x, int y) { renderPixel(c, r, screen, x, y, color); }
-	protected void renderPixel(int c, int r, Screen screen, int x, int y, int color) {
-		renderPixel(c, r, screen, x, y, color, spritePixels[r][c].mirror);
+	Px getPixel(int r, int c) { return spritePixels[r][c]; }
+	
+	void renderPixel(int r, int c, Screen screen, int x, int y) { renderPixel(r, c, screen, x, y, getColor()); }
+	void renderPixel(int r, int c, Screen screen, int x, int y, int color) {
+		renderPixel(r, c, screen, x, y, color, spritePixels[r][c].mirror);
 	}
-	protected void renderPixel(int c, int r, Screen screen, int x, int y, int col, int mirror) {
+	void renderPixel(int r, int c, Screen screen, int x, int y, int col, int mirror) {
 		//System.out.println("rendering pixel ("+c+","+r+") at ("+x+","+y+")");
 		screen.render(x, y, spritePixels[r][c].sheetPos, col, mirror); // render the sprite pixel.
 	}
@@ -129,8 +133,32 @@ public class Sprite {
 		return out.toString();
 	}
 	
+	public int getColor() {
+		return color;
+	}
+	
+	public void setColor(int color) {
+		this.color = color;
+	}
+	
+	Px[][] getSpritePixels() {
+		return spritePixels;
+	}
+	
+	void setSpritePixels(Px[][] spritePixels) {
+		this.spritePixels = spritePixels;
+	}
+	
+	Rectangle getSheetLoc() {
+		return sheetLoc;
+	}
+	
+	void setSheetLoc(Rectangle sheetLoc) {
+		this.sheetLoc = sheetLoc;
+	}
+	
 	public static class Px {
-		protected int sheetPos, mirror;
+		int sheetPos, mirror;
 		
 		public Px(int sheetX, int sheetY, int mirroring) {
 			//pixelX and pixelY are the relative positions each pixel should have relative to the top-left-most pixel of the sprite.

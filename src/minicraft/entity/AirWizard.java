@@ -165,7 +165,7 @@ public class AirWizard extends EnemyMob {
 	}
 	
 	/** What happens when the player (or any entity) touches the air wizard */
-	protected void touchedBy(Entity entity) {
+	void touchedBy(Entity entity) {
 		if (entity instanceof Player) {
 			// if the entity is the Player, then deal them 1 or 2 damage points.
 			entity.hurt(this, (secondform ? 2 : 1), Mob.getAttackDir(this, entity));
@@ -173,7 +173,7 @@ public class AirWizard extends EnemyMob {
 	}
 	
 	/** What happens when the air wizard dies */
-	protected void die() {
+	void die() {
 		Player[] players = level.getPlayers();
 		if (players.length > 0) { // if the player is still here
 			for(Player p: players)

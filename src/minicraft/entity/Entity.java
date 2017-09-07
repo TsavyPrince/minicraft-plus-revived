@@ -10,11 +10,11 @@ import minicraft.level.tile.Tile;
 
 public abstract class Entity {
 	/// entity coordinates are per pixel, not per tile; each tile is 16x16 entity pixels.
-	protected final Random random = new Random();
+	final Random random = new Random();
 	public int x, y; // x, y entity coordinates on the map
 	public int xr, yr; // x, y radius of entity
 	private boolean removed; // Determines if the entity is removed from it's level; checked in Level.java
-	protected Level level; // the level that the entity is on
+	Level level; // the level that the entity is on
 	public int col; // current color.
 	
 	public int eid; /// this is intended for multiplayer, but I think it could be helpful in single player, too. certainly won't harm anything, I think... as long as finding a valid id doesn't take long...
@@ -123,7 +123,7 @@ public abstract class Entity {
 	}
 	
 	/** Second part to the move method (moves in one direction at a time) */
-	protected boolean move2(int xa, int ya) {
+	boolean move2(int xa, int ya) {
 		if (xa != 0 && ya != 0)
 			throw new IllegalArgumentException("Move2 can only move along one axis at a time!");
 		
@@ -202,7 +202,7 @@ public abstract class Entity {
 	}
 	
 	/** if this entity is touched by another entity (extended by sub-classes) */
-	protected void touchedBy(Entity entity) {}
+	void touchedBy(Entity entity) {}
 	
 	/** returns if mobs can block this entity (aka: can't pass through them) */
 	public boolean isBlockableBy(Mob mob) {
@@ -257,8 +257,8 @@ public abstract class Entity {
 		return Math.round(distance) >> 4 <= tileRadius; // compare the distance (converted to tile units) with the specified radius.
 	}
 	
-	protected Player getClosestPlayer() { return getClosestPlayer(true); }
-	protected Player getClosestPlayer(boolean returnSelf) {
+	Player getClosestPlayer() { return getClosestPlayer(true); }
+	Player getClosestPlayer(boolean returnSelf) {
 		if (this instanceof Player && returnSelf)
 			return (Player) this;
 		
@@ -279,7 +279,7 @@ public abstract class Entity {
 		}
 	}
 	
-	protected boolean updateField(String fieldName, String val) {
+	boolean updateField(String fieldName, String val) {
 		switch(fieldName) {
 			case "eid": eid = Integer.parseInt(val); return true;
 			case "x": x = Integer.parseInt(val); return true;
@@ -299,7 +299,7 @@ public abstract class Entity {
 	
 	/// I think I'll make these "getUpdates()" methods be an established thing, that returns all the things that can change that you need to account for when updating entities across a server.
 	/// by extension, the update() method should always account for all the variables specified here.
-	protected String getUpdateString() {
+	String getUpdateString() {
 		return "x,"+x+";"
 		+"y,"+y+";"
 		+"level,"+(level==null?"null":Game.lvlIdx(level.depth));

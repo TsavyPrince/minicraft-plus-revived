@@ -329,7 +329,7 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 			thread.sendData(InputType.GAME, vars);
 	}
 	
-	protected File[] getRemotePlayerFiles() {
+	File[] getRemotePlayerFiles() {
 		File saveFolder = new File(worldPath);
 		
 		File[] clientSaves = saveFolder.listFiles((file, name) -> name.startsWith("RemotePlayer"));
@@ -340,7 +340,7 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 		return clientSaves;
 	}
 	
-	protected String getUsernames() {
+	String getUsernames() {
 		StringBuilder names = new StringBuilder();
 		for(MinicraftServerThread thread: getThreads())
 			names.append(thread.getClient().getUsername()).append("\n");
@@ -759,7 +759,7 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 			thread.sendData(inType, data);
 	}
 	
-	protected void onThreadDisconnect(MinicraftServerThread thread) {
+	void onThreadDisconnect(MinicraftServerThread thread) {
 		threadList.remove(thread);
 		//broadcastEntityRemoval(thread.getClient());
 		//broadcastData(InputType.REMOVE, String.valueOf(thread.getClient().eid), thread);

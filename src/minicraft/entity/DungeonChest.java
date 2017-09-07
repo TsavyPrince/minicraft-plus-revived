@@ -64,7 +64,7 @@ public class DungeonChest extends Chest {
 	}
 	
 	public void render(Screen screen) {
-		sprite.color = col = isLocked?lockCol:openCol;
+		sprite.setColor(col = isLocked?lockCol:openCol);
 		super.render(screen);
 	}
 	
@@ -109,7 +109,7 @@ public class DungeonChest extends Chest {
 	}
 	
 	/** what happens if the player tries to push a Dungeon Chest. */
-	protected void touchedBy(Entity entity) {
+	void touchedBy(Entity entity) {
 		if(!isLocked) // can only be pushed if unlocked.
 			super.touchedBy(entity);
 	}
@@ -120,14 +120,14 @@ public class DungeonChest extends Chest {
 			super.take(player);
 	}
 	
-	protected String getUpdateString() {
+	String getUpdateString() {
 		String updates = super.getUpdateString() + ";";
 		updates += "isLocked,"+isLocked;
 		
 		return updates;
 	}
 	
-	protected boolean updateField(String field, String val) {
+	boolean updateField(String field, String val) {
 		if(super.updateField(field, val)) return true;
 		switch(field) {
 			case "isLocked":

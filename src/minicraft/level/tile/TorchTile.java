@@ -4,13 +4,14 @@ import minicraft.entity.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Screen;
 import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.item.Item;
 import minicraft.item.Items;
 import minicraft.item.PowerGloveItem;
 import minicraft.level.Level;
 
 public class TorchTile extends Tile {
-	private static Sprite sprite = new Sprite(12, 3, Color.get(320, 500, 520, -1));
+	private static Sprite sprite = new SpriteBuilder().setSx(12).setSy(3).setColor(Color.get(320, 500, 520, -1)).createSprite();
 	
 	private Tile onType;
 	

@@ -5,6 +5,7 @@ import minicraft.entity.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.ConnectorSprite;
 import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.item.Item;
 import minicraft.item.Items;
 import minicraft.item.ToolItem;
@@ -12,7 +13,7 @@ import minicraft.item.ToolType;
 import minicraft.level.Level;
 
 public class GrassTile extends Tile {
-	private static ConnectorSprite sprite = new ConnectorSprite(GrassTile.class, new Sprite(11, 0, 3, 3, Color.get(141, 141, 252, 321), 3), Sprite.dots(Color.get(141, 141, 252, 321)))
+	private static ConnectorSprite sprite = new ConnectorSprite(GrassTile.class, new SpriteBuilder().setSx(11).setSy(0).setSw(3).setSh(3).setColor(Color.get(141, 141, 252, 321)).setMirror(3).createSprite(), Sprite.dots(Color.get(141, 141, 252, 321)))
 	{
 		public boolean connectsTo(Tile tile, boolean isSide) {
 			if(!isSide) return true;
@@ -20,7 +21,7 @@ public class GrassTile extends Tile {
 		}
 	};
 	
-	protected GrassTile(String name) {
+	GrassTile(String name) {
 		super(name, sprite);
 		csprite.sides = csprite.sparse;
 		connectsToGrass = true;

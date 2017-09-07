@@ -66,7 +66,7 @@ public class Knight extends EnemyMob {
 		return true;
 	}*/
 
-	protected void die() {
+	void die() {
 		if (OptionsMenu.diff == OptionsMenu.easy) dropItem(1, 3, Items.get("shard"));
 		if (OptionsMenu.diff == OptionsMenu.norm) dropItem(0, 2, Items.get("shard"));
 		if (OptionsMenu.diff == OptionsMenu.hard) dropItem(0, 2, Items.get("shard"));

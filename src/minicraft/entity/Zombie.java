@@ -59,7 +59,7 @@ public class Zombie extends EnemyMob {
 		return true;
 	}*/
 
-	protected void die() {
+	void die() {
 		if (OptionsMenu.diff == OptionsMenu.easy) dropItem(2, 4, Items.get("cloth"));
 		if (OptionsMenu.diff == OptionsMenu.norm) dropItem(2, 3, Items.get("cloth"));
 		if (OptionsMenu.diff == OptionsMenu.hard) dropItem(1, 2, Items.get("cloth"));

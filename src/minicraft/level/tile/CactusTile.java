@@ -6,15 +6,16 @@ import minicraft.entity.particle.SmashParticle;
 import minicraft.entity.particle.TextParticle;
 import minicraft.gfx.Color;
 import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.item.Items;
 import minicraft.level.Level;
 import minicraft.screen.ModeMenu;
 import minicraft.screen.OptionsMenu;
 
 public class CactusTile extends Tile {
-	private static Sprite sprite = new Sprite(8, 2, 2, 2, Color.get(30, 40, 50, 550));
+	private static Sprite sprite = new SpriteBuilder().setSx(8).setSy(2).setSw(2).setSh(2).setColor(Color.get(30, 40, 50, 550)).createSprite();
 	
-	protected CactusTile(String name) {
+	CactusTile(String name) {
 		super(name, sprite);
 		connectsToSand = true;
 	}

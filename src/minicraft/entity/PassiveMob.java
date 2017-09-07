@@ -10,7 +10,7 @@ import minicraft.screen.ModeMenu;
 import minicraft.screen.OptionsMenu;
 
 public class PassiveMob extends MobAi {
-	protected int color;
+	int color;
 	
 	public PassiveMob(MobSprite[][] sprites, int color) {this(sprites, color, 3);}
 	public PassiveMob(MobSprite[][] sprites, int color, int healthFactor) {
@@ -33,7 +33,7 @@ public class PassiveMob extends MobAi {
 		}
 	}
 	
-	protected void die() {
+	void die() {
 		super.die(15);
 	}
 	

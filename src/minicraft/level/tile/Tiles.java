@@ -61,7 +61,7 @@ public final class Tiles {
 	}
 	
 	
-	protected static void add(int id, Tile tile) {
+	static void add(int id, Tile tile) {
 		tiles.set(id, tile);
 		System.out.println("adding " + tile.name + " to tile list with id " + id);
 		tile.id = (byte) id;

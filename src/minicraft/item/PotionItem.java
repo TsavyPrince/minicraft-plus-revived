@@ -5,13 +5,13 @@ import minicraft.Game;
 import minicraft.entity.Player;
 import minicraft.entity.RemotePlayer;
 import minicraft.gfx.Color;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.level.Level;
 import minicraft.level.tile.Tile;
 
 public class PotionItem extends StackableItem {
 	
-	protected static ArrayList<Item> getAllInstances() {
+	static ArrayList<Item> getAllInstances() {
 		ArrayList<Item> items = new ArrayList<>();
 		
 		for(PotionType type: PotionType.values())
@@ -24,7 +24,7 @@ public class PotionItem extends StackableItem {
 	
 	private PotionItem(PotionType type) { this(type, 1); }
 	private PotionItem(PotionType type, int count) {
-		super(type.name, new Sprite(27, 4, Color.get(-1, 333, 310, type.dispColor)), count);
+		super(type.name, new SpriteBuilder().setSx(27).setSy(4).setColor(Color.get(-1, 333, 310, type.dispColor)).createSprite(), count);
 		this.type = type;
 	}
 	

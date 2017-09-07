@@ -35,7 +35,7 @@ import minicraft.screen.PlayerInvMenu;
 import minicraft.screen.WorldSelectMenu;
 
 public class Player extends Mob {
-	protected InputHandler input;
+	InputHandler input;
 	public Game game;
 	
 	private static final int playerHurtTime = 30;
@@ -441,7 +441,7 @@ public class Player extends Mob {
 	}
 	
 	/** This method is called when we press the attack button. */
-	protected void attack() {
+	void attack() {
 		// walkDist is not synced, so this can happen for both the client and server.
 		walkDist += 8; // increase the walkDist (changes the sprite, like you moved your arm)
 		
@@ -808,7 +808,7 @@ public class Player extends Mob {
 	}
 	
 	/** What happens when the player dies */
-	protected void die() {
+	void die() {
 		int lostscore = score / 3; // finds score penalty
 		score -= lostscore; // subtracts score penalty
 		game.setMultiplier(1);
@@ -839,7 +839,7 @@ public class Player extends Mob {
 	}
 	
 	/** What happens when the player touches an entity */
-	protected void touchedBy(Entity entity) {
+	void touchedBy(Entity entity) {
 		if (!(entity instanceof Player)) { // prevents stack-overflow
 			entity.touchedBy(this); // calls the other entity's touchedBy method.
 		}
@@ -847,7 +847,7 @@ public class Player extends Mob {
 	
 	public void hurt(int damage, int attackDir) { doHurt(damage, attackDir); }
 	/** What happens when the player is hurt */
-	protected void doHurt(int damage, int attackDir) {
+	void doHurt(int damage, int attackDir) {
 		if (ModeMenu.creative || hurtTime > 0 || Bed.inBed) return; // can't get hurt in creative, hurt cooldown, or while someone is in bed
 		
 		if(Game.isValidServer() && this instanceof RemotePlayer) {
@@ -902,7 +902,7 @@ public class Player extends Mob {
 		hurtTime = playerHurtTime;
 	}
 	
-	protected String getUpdateString() {
+	String getUpdateString() {
 		String updates = super.getUpdateString() + ";";
 		updates += "skinon,"+skinon+
 		";shirtColor,"+shirtColor+
@@ -924,7 +924,7 @@ public class Player extends Mob {
 		return updates;
 	}
 	
-	protected boolean updateField(String field, String val) {
+	boolean updateField(String field, String val) {
 		if(super.updateField(field, val)) return true;
 		switch(field) {
 			case "skinon": skinon = Boolean.parseBoolean(val); return true;

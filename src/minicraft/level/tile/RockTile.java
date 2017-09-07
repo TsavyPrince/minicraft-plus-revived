@@ -5,10 +5,7 @@ import minicraft.entity.Mob;
 import minicraft.entity.Player;
 import minicraft.entity.particle.SmashParticle;
 import minicraft.entity.particle.TextParticle;
-import minicraft.gfx.Color;
-import minicraft.gfx.ConnectorSprite;
-import minicraft.gfx.Screen;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.*;
 import minicraft.item.Item;
 import minicraft.item.Items;
 import minicraft.item.ToolItem;
@@ -20,18 +17,18 @@ import minicraft.screen.ModeMenu;
 /// this is the typical stone you see underground and on the surface, that gives coal.
 
 public class RockTile extends Tile {
-	private ConnectorSprite sprite = new ConnectorSprite(RockTile.class, new Sprite(4, 0, 3, 3, Color.get(111, 444, 555, 321), 3), new Sprite(7, 0, 2, 2, Color.get(111, 444, 555, 321), 3), Sprite.dots(Color.get(444, 444, 333, 333)));
+	private ConnectorSprite sprite = new ConnectorSprite(RockTile.class, new SpriteBuilder().setSx(4).setSy(0).setSw(3).setSh(3).setColor(Color.get(111, 444, 555, 321)).setMirror(3).createSprite(), new SpriteBuilder().setSx(7).setSy(0).setSw(2).setSh(2).setColor(Color.get(111, 444, 555, 321)).setMirror(3).createSprite(), Sprite.dots(Color.get(444, 444, 333, 333)));
 	
 	private int coallvl = 0;
 	
-	protected RockTile(String name) {
+	RockTile(String name) {
 		super(name, (ConnectorSprite)null);
 		csprite = sprite;
 	}
 	
 	public void render(Screen screen, Level level, int x, int y) {
-		sprite.sides.color = Color.get(111, 444, 555, DirtTile.dCol(level.depth));
-		sprite.sparse.color = Color.get(111, 444, 555, DirtTile.dCol(level.depth));
+		sprite.sides.setColor(Color.get(111, 444, 555, DirtTile.dCol(level.depth)));
+		sprite.sparse.setColor(Color.get(111, 444, 555, DirtTile.dCol(level.depth)));
 		sprite.render(screen, level, x, y);
 	}
 	

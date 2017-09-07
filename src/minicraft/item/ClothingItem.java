@@ -3,13 +3,13 @@ package minicraft.item;
 import java.util.ArrayList;
 import minicraft.entity.Player;
 import minicraft.gfx.Color;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.level.Level;
 import minicraft.level.tile.Tile;
 
 public class ClothingItem extends StackableItem {
 	
-	protected static ArrayList<Item> getAllInstances() {
+	static ArrayList<Item> getAllInstances() {
 		ArrayList<Item> items = new ArrayList<>();
 		
 		items.add(new ClothingItem("Red Clothes", Color.get(-1, 100, 400, 500), 400));
@@ -29,7 +29,7 @@ public class ClothingItem extends StackableItem {
 	
 	private ClothingItem(String name, int color, int pcol) { this(name, 1, color, pcol); }
 	private ClothingItem(String name, int count, int color, int pcol) {
-		super(name, new Sprite(6, 12, color), count);
+		super(name, new SpriteBuilder().setSx(6).setSy(12).setColor(color).createSprite(), count);
 		playerCol = pcol;
 	}
 	
@@ -44,6 +44,6 @@ public class ClothingItem extends StackableItem {
 	}
 	
 	public ClothingItem clone() {
-		return new ClothingItem(name, count, sprite.color, playerCol);
+		return new ClothingItem(name, count, sprite.getColor(), playerCol);
 	}
 }

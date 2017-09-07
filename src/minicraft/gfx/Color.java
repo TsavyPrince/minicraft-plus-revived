@@ -143,7 +143,7 @@ public class Color {
 	}
 	
 	/// this turns a 0-216 combined minicraft color into a 24-bit r,g,b color.
-	protected static int upgrade(int col) {
+	static int upgrade(int col) {
 		// int r = ((col / 36) % 6) * 255 / 5;
 		// int g = ((col / 6) % 6) * 255 / 5;
 		// int b = (col % 6) * 255 / 5;
@@ -165,13 +165,13 @@ public class Color {
 	}
 	
 	/// this takes a 24 bit color, and turns it into an 8-bit color minicraft sprites use.
-	protected static int downgrade(int col) {
+	static int downgrade(int col) {
 		int[] comps = decodeRGBColor(col);
 		return rgb(comps[0], comps[1], comps[2]);
 	}
 	
 	/// this is like get(d), above, but it returns a 24 bit color, with r,g,b each taking 8 bits, rather than them all taking 8 bits together.
-	protected static int getColor(int d) {
+	static int getColor(int d) {
 		int r = d / 100 % 10; // the red value is the remainder of (d/100) / 10
 		int g = d / 10 % 10; // the green value is the remainder of (d/10) / 10
 		int b = d % 10; // the blue value is the remainder of d / 10.
@@ -194,7 +194,7 @@ public class Color {
 		*/
 	}
 	
-	protected static int tintColor(int rgb, int amount) {
+	static int tintColor(int rgb, int amount) {
 		if(rgb == -1) return -1;
 		
 		int[] comps = decodeRGBColor(rgb);
@@ -208,7 +208,7 @@ public class Color {
 		return r << 16 | g << 8 | b;
 	}
 	
-	protected static int[] decodeRGBColor(int col) {
+	static int[] decodeRGBColor(int col) {
 		int r = col >> 16;
 		int rp = r << 16;
 		int g = (col - rp) >> 8;
@@ -246,7 +246,7 @@ public class Color {
 		
 	}
 	
-	protected static String toStringSingle(int col) {
+	static String toStringSingle(int col) {
 		return java.util.Arrays.toString(decodeRGB(col));
 	}
 	

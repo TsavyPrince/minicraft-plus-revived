@@ -3,7 +3,7 @@ package minicraft.item;
 import java.util.ArrayList;
 import minicraft.entity.Player;
 import minicraft.gfx.Color;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.level.Level;
 import minicraft.level.tile.Tile;
 import minicraft.level.tile.Tiles;
@@ -25,7 +25,7 @@ public class BucketItem extends StackableItem {
 		}
 	}
 	
-	protected static ArrayList<Item> getAllInstances() {
+	static ArrayList<Item> getAllInstances() {
 		ArrayList<Item> items = new ArrayList<>();
 		
 		for(Fill fill: Fill.values())
@@ -46,7 +46,7 @@ public class BucketItem extends StackableItem {
 	
 	private BucketItem(Fill fill) { this(fill, 1); }
 	private BucketItem(Fill fill, int count) {
-		super(fill.name() + " Bucket", new Sprite(21, 4, Color.get(-1, 222, fill.innerColor, 555)), count);
+		super(fill.name() + " Bucket", new SpriteBuilder().setSx(21).setSy(4).setColor(Color.get(-1, 222, fill.innerColor, 555)).createSprite(), count);
 		this.filling = fill;
 	}
 	

@@ -32,7 +32,7 @@ public class MinicraftServerThread extends MinicraftConnection {
 	private MinicraftServer serverInstance;
 	private RemotePlayer client;
 	
-	protected boolean isPlaying = false;
+	boolean isPlaying = false;
 	
 	private Game game;
 	
@@ -78,7 +78,7 @@ public class MinicraftServerThread extends MinicraftConnection {
 	
 	public RemotePlayer getClient() { return client; }
 	
-	protected synchronized boolean parsePacket(InputType inType, String data) {
+	synchronized boolean parsePacket(InputType inType, String data) {
 		//if(inType == InputType.LOAD) isPlaying = true;
 		
 		if(inType == InputType.PING) {
@@ -103,17 +103,17 @@ public class MinicraftServerThread extends MinicraftConnection {
 		}
 	}
 	
-	protected void sendError(String message) {
+	void sendError(String message) {
 		if (Game.debug) System.out.println("SERVER: sending error to " + client + ": \"" + message + "\"");
 		sendData(InputType.INVALID, message);
 	}
 	
-	protected void cachePacketTypes(List<InputType> packetTypes) {
+	void cachePacketTypes(List<InputType> packetTypes) {
 		packetTypesToCache.addAll(packetTypes);
 		packetTypesToKeep.removeAll(packetTypes);
 	}
 	
-	protected void sendCachedPackets() {
+	void sendCachedPackets() {
 		packetTypesToCache.clear();
 		
 		for(String packet: cachedPackets) {
@@ -125,7 +125,7 @@ public class MinicraftServerThread extends MinicraftConnection {
 		cachedPackets.clear();
 	}
 	
-	protected synchronized void sendData(InputType inType, String data) {
+	synchronized void sendData(InputType inType, String data) {
 		if(packetTypesToCache.contains(inType))
 			cachedPackets.add(inType.ordinal()+":"+data);
 		else if(!packetTypesToKeep.contains(inType))
@@ -188,14 +188,14 @@ public class MinicraftServerThread extends MinicraftConnection {
 		sendData(InputType.MOVE, lvlDepth+";"+x+";"+y);
 	}
 	
-	protected void respawnPlayer() {
+	void respawnPlayer() {
 		client.remove(); // hopefully removes it from any level it might still be on
 		client = new RemotePlayer(game, false, client);
 		client.respawn(Game.levels[Game.lvlIdx(0)]); // get the spawn loc. of the client
 		sendData(InputType.PLAYER, client.getPlayerData()); // send spawn loc.
 	}
 	
-	protected File getRemotePlayerFile() {
+	File getRemotePlayerFile() {
 		File[] clientFiles = serverInstance.getRemotePlayerFiles();
 		
 		for(File file: clientFiles) {
@@ -223,7 +223,7 @@ public class MinicraftServerThread extends MinicraftConnection {
 		return null;
 	}
 	
-	protected String getRemotePlayerFileData() {
+	String getRemotePlayerFileData() {
 		File rpFile = getRemotePlayerFile();
 		
 		String playerdata = "";
@@ -241,7 +241,7 @@ public class MinicraftServerThread extends MinicraftConnection {
 		return playerdata;
 	}
 	
-	protected void writeClientSave(String playerdata) {
+	void writeClientSave(String playerdata) {
 		String filename; // this will hold the path to the file that will be saved to.
 		
 		File rpFile = getRemotePlayerFile();

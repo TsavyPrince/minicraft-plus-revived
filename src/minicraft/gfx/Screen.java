@@ -21,7 +21,7 @@ public class Screen {
 	public static final int h = Game.HEIGHT; // height of the screen
 	public int[] pixels; // pixels on the screen
 	
-	protected SpriteSheet sheet; // the sprite sheet used in the game.
+	SpriteSheet sheet; // the sprite sheet used in the game.
 	
 	public Screen(SpriteSheet sheet) {
 		this.sheet = sheet;

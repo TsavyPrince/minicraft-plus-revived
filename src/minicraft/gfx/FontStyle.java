@@ -51,12 +51,12 @@ public class FontStyle {
 		For an example, for the default shadow, the string is "00010000". though, becuase of the way it's designed, the trailing zeros may be dropped, so it could just be "0001". This doesn't quite read like binary, but it doesn't have to, so whatever. :P
 	*/
 	
-	protected int mainColor;
+	int mainColor;
 	
-	protected int shadowColor;
-	protected String shadowType;
-	protected int centerMinX, centerMaxX, centerMinY, centerMaxY;
-	protected int xPosition = -1, yPosition = -1;
+	int shadowColor;
+	String shadowType;
+	int centerMinX, centerMaxX, centerMinY, centerMaxY;
+	int xPosition = -1, yPosition = -1;
 	
 	public FontStyle(int mainColor) {
 		this.mainColor = mainColor;

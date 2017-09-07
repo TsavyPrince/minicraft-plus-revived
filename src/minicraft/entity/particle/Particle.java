@@ -6,9 +6,9 @@ import minicraft.gfx.Sprite;
 
 public class Particle extends Entity {
 	private int time; // lifetime elapsed.
-	protected int lifetime;
+	int lifetime;
 	
-	protected Sprite sprite;
+	Sprite sprite;
 	
 	public Particle(int x, int y, int lifetime, Sprite sprite) {
 		// make a particle at the given coordinates

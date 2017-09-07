@@ -8,6 +8,7 @@ import minicraft.entity.particle.TextParticle;
 import minicraft.gfx.Color;
 import minicraft.gfx.Screen;
 import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.item.Item;
 import minicraft.item.Items;
 import minicraft.item.ToolItem;
@@ -34,19 +35,19 @@ public class OreTile extends Tile {
 			this.color = color;
 		}
 		
-		protected Item getOre() {
+		Item getOre() {
 			return drop.clone();
 		}
     }
 	
-	protected OreTile(OreType o) {
-		super((o == OreTile.OreType.Lapis ? "Lapis" : o.name() + " Ore"), new Sprite(17, 1, 2, 2, o.color));
+	OreTile(OreType o) {
+		super((o == OreTile.OreType.Lapis ? "Lapis" : o.name() + " Ore"), new SpriteBuilder().setSx(17).setSy(1).setSw(2).setSh(2).setColor(o.color).createSprite());
         this.type = o;
 		this.sprite = super.sprite;
 	}
 
 	public void render(Screen screen, Level level, int x, int y) {
-		sprite.color = (type.color & 0xffffff00) + Color.get(DirtTile.dCol(level.depth));
+		sprite.setColor((type.color & 0xffffff00) + Color.get(DirtTile.dCol(level.depth)));
 		sprite.render(screen, x*16, y*16);
 	}
 

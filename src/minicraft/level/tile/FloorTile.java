@@ -5,6 +5,7 @@ import minicraft.entity.Entity;
 import minicraft.entity.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.item.Item;
 import minicraft.item.Items;
 import minicraft.item.ToolItem;
@@ -12,20 +13,20 @@ import minicraft.item.ToolType;
 import minicraft.level.Level;
 
 public class FloorTile extends Tile {
-	private Sprite sprite = new Sprite(19, 2, 2, 2, 0, 0, true);
+	private Sprite sprite = new SpriteBuilder().setSx(19).setSy(2).setSw(2).setSh(2).setColor(0).setMirror(0).setOnepixel(true).createSprite();
 	
-	protected Material type;
+	Material type;
 	
-	protected FloorTile(Material type) {
+	FloorTile(Material type) {
 		super((type == Material.Wood ? "Wood Planks" : type == Material.Obsidian ? "Obsidian" : type.name()+" Bricks"), (Sprite)null);
 		this.type = type;
 		maySpawn = true;
 		switch(type) {
-			case Wood: sprite.color = Color.get(210, 210, 430, 320);
+			case Wood: sprite.setColor(Color.get(210, 210, 430, 320));
 			break;
-			case Stone: sprite.color = Color.get(333, 333, 444, 444);
+			case Stone: sprite.setColor(Color.get(333, 333, 444, 444));
 			break;
-			case Obsidian: sprite.color = Color.get(102, 102, 203, 203);
+			case Obsidian: sprite.setColor(Color.get(102, 102, 203, 203));
 			break;
 		}
 		super.sprite = sprite;

@@ -49,7 +49,7 @@ public class Skeleton extends EnemyMob {
 		}
 	}
 	
-	protected void die() {
+	void die() {
 		int[] diffrands = {20, 20, 30};
 		int[] diffvals = {13, 18, 28};
 		int diff = OptionsMenu.diff;

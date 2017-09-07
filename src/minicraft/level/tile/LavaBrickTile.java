@@ -5,15 +5,16 @@ import minicraft.entity.Entity;
 import minicraft.entity.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.item.Item;
 import minicraft.item.ToolItem;
 import minicraft.item.ToolType;
 import minicraft.level.Level;
 
 public class LavaBrickTile extends Tile {
-	private static Sprite sprite = new Sprite(19, 2, 2, 2, Color.get(300, 300, 400, 400));
+	private static Sprite sprite = new SpriteBuilder().setSx(19).setSy(2).setSw(2).setSh(2).setColor(Color.get(300, 300, 400, 400)).createSprite();
 	
-	protected LavaBrickTile(String name) {
+	LavaBrickTile(String name) {
 		super(name, sprite);
 	}
 	

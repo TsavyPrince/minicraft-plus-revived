@@ -56,7 +56,7 @@ public class Snake extends EnemyMob {
 		super.render(screen);
 	}
 	*/
-	protected void touchedBy(Entity entity) {
+	void touchedBy(Entity entity) {
 		if(entity instanceof Player) {
 			int damage = lvl + OptionsMenu.diff;
 			entity.hurt(this, damage, Mob.getAttackDir(this, entity));
@@ -67,7 +67,7 @@ public class Snake extends EnemyMob {
 		return true;
 	}*/
 
-	protected void die() {
+	void die() {
 		int num = OptionsMenu.diff == OptionsMenu.hard ? 0 : 1;
 		dropItem(num, num+1, Items.get("scale"));
 		

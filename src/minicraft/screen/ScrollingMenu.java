@@ -5,12 +5,12 @@ import minicraft.gfx.Screen;
 
 public class ScrollingMenu extends SelectMenu {
 	
-	protected int dispSelected;
-	protected int dispSize;
+	int dispSelected;
+	int dispSize;
 	
 	private int padding;
 	
-	protected int offset; // since not all elements are displayed at once, this determines which item is at the top.
+	int offset; // since not all elements are displayed at once, this determines which item is at the top.
 	
 	private ScrollingMenu(List<String> options, int displayLength, int x, int y, boolean centered, int spacing, int colSel, int colNoSel) {
 		super(options, x, y, centered, spacing, colSel, colNoSel);

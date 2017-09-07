@@ -2,10 +2,7 @@ package minicraft.level.tile;
 
 import minicraft.entity.Mob;
 import minicraft.entity.Player;
-import minicraft.gfx.Color;
-import minicraft.gfx.ConnectorSprite;
-import minicraft.gfx.Screen;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.*;
 import minicraft.item.Item;
 import minicraft.item.Items;
 import minicraft.item.ToolItem;
@@ -13,9 +10,9 @@ import minicraft.item.ToolType;
 import minicraft.level.Level;
 
 public class FlowerTile extends Tile {
-	private static Sprite flowersprite = new Sprite(1, 1, Color.get(10, 141, 555, 440));
+	private static Sprite flowersprite = new SpriteBuilder().setSx(1).setSy(1).setColor(Color.get(10, 141, 555, 440)).createSprite();
 	
-	protected FlowerTile(String name) {
+	FlowerTile(String name) {
 		super(name, (ConnectorSprite)null);
 		connectsToGrass = true;
 		maySpawn = true;

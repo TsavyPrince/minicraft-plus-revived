@@ -106,8 +106,8 @@ public class Game extends Canvas implements Runnable {
 	/// RENDERING
 	
 	private BufferedImage image; // creates an image to be displayed on the screen.
-	protected int[] pixels; // the array of pixels that will be displayed on the screen.
-	private int[] colors; // All of the colors, put into an array.
+	int[] pixels; // the array of pixels that will be displayed on the screen.
+	//private int[] colors; // All of the colors, put into an array.
 	/// these are public, but should not be modified:
 	public Screen screen; // Creates the main screen
 	public Screen lightScreen; // Creates a front screen to render the darkness in caves (Fog of war).
@@ -140,8 +140,8 @@ public class Game extends Canvas implements Runnable {
 	public static int lvlw = worldSize; // The width of the world
 	public static int lvlh = worldSize; // The height of the world
 	
-	protected int playerDeadTime; // the time after you die before the dead menu shows up.
-	protected int pendingLevelChange; // used to determine if the player should change levels or not.
+	int playerDeadTime; // the time after you die before the dead menu shows up.
+	int pendingLevelChange; // used to determine if the player should change levels or not.
 	public boolean gameOver; // If the player wins this is set to true.
 	
 	/// AUTOSAVE AND NOTIFICATIONS
@@ -185,7 +185,7 @@ public class Game extends Canvas implements Runnable {
 		fra = 0; // the frames processed in the previous second
 		tik = 0; // the ticks processed in the previous second
 		
-		colors = new int[256];
+		//colors = new int[256];
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 		
@@ -251,7 +251,7 @@ public class Game extends Canvas implements Runnable {
 	/**
 	 * Initialization step, this is called when the game first starts. Sets up the screens.
 	 */
-	protected void init() {
+	void init() {
 		/* This sets up the screens, and loads the icons.png spritesheet. */
 		try {
 			screen = new Screen(new SpriteSheet(ImageIO.read(Game.class.getResourceAsStream
@@ -974,7 +974,7 @@ public class Game extends Canvas implements Runnable {
 				
 				// renders armor
 				int armor = player.armor*10 / Player.maxArmor;
-				color = (i <= armor && player.curArmor != null) ? player.curArmor.sprite.color : Color.get(-1, -1);
+				color = (i <= armor && player.curArmor != null) ? player.curArmor.sprite.getColor() : Color.get(-1, -1);
 				screen.render(i * 8, Screen.h - 24, 3 + 12 * 32, color, 0);
 				
 				// renders your current red hearts, or black hearts for damaged health.

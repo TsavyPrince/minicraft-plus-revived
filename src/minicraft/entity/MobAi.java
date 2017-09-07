@@ -31,7 +31,7 @@ public abstract class MobAi extends Mob {
 		walkTime = 2;
 	}
 	
-	protected boolean skipTick() {
+	boolean skipTick() {
 		return slowtick && (tickTime+1) % 4 == 0;
 	}
 	
@@ -120,14 +120,14 @@ public abstract class MobAi extends Mob {
 		ya = (random.nextInt(3) - 1);
 	}
 	
-	protected void dropItem(int mincount, int maxcount, Item... items) {
+	void dropItem(int mincount, int maxcount, Item... items) {
 		int count = random.nextInt(maxcount-mincount+1) + mincount;
 		for (int i = 0; i < count; i++)
 			level.dropItem(x, y, items);
 	}
 	
 	/** Determines if the given spawn location is appropriate for friendly mobs. */
-	protected static boolean checkStartPos(Level level, int x, int y, int playerDist, int soloRadius) {
+	static boolean checkStartPos(Level level, int x, int y, int playerDist, int soloRadius) {
 		Player player = level.getClosestPlayer(x, y);
 		if (player != null) {
 			int xd = player.x - x;

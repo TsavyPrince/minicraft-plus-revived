@@ -102,7 +102,7 @@ public class ItemEntity extends Entity {
 		item.sprite.render(screen, x-4, y-4 - (int)(zz) );
 	}
 
-	protected void touchedBy(Entity entity) {
+	void touchedBy(Entity entity) {
 		if (time > 30) { // conditional prevents this from being collected immediately.
 			if(Game.isValidClient() && entity instanceof Player && entity == ((Player)entity).game.player) {// only register if the main player picks it up, on a client.
 				if(!pickedUp) {

@@ -68,20 +68,20 @@ public class Slime extends EnemyMob {
 		y = oldy;
 	}
 	
-	protected void die() {
+	void die() {
 		dropItem(1, ModeMenu.score ? 2 : 4 - OptionsMenu.diff, Items.get("slime"));
 		
 		super.die(); // Parent death call
 	}
 	
-	protected String getUpdateString() {
+	String getUpdateString() {
 		String updates = super.getUpdateString() + ";";
 		updates += "jumpTime,"+jumpTime;
 		
 		return updates;
 	}
 	
-	protected boolean updateField(String field, String val) {
+	boolean updateField(String field, String val) {
 		if(super.updateField(field, val)) return true;
 		switch(field) {
 			case "jumpTime":

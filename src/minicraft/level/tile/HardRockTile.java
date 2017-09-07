@@ -8,7 +8,7 @@ import minicraft.entity.particle.SmashParticle;
 import minicraft.entity.particle.TextParticle;
 import minicraft.gfx.Color;
 import minicraft.gfx.ConnectorSprite;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.item.Item;
 import minicraft.item.Items;
 import minicraft.item.ToolItem;
@@ -17,9 +17,9 @@ import minicraft.level.Level;
 import minicraft.screen.ModeMenu;
 
 public class HardRockTile extends Tile {
-	private static ConnectorSprite sprite = new ConnectorSprite(HardRockTile.class, new Sprite(4, 0, 3, 3, Color.get(001, 334, 445, 321), 3), new Sprite(7, 0, 2, 2, Color.get(001, 334, 445, 321), 3), ConnectorSprite.makeSprite(2, 2, Color.get(445, 334, 223, 223), 0, false, 0, 1, 2, 0));
+	private static ConnectorSprite sprite = new ConnectorSprite(HardRockTile.class, new SpriteBuilder().setSx(4).setSy(0).setSw(3).setSh(3).setColor(Color.get(001, 334, 445, 321)).setMirror(3).createSprite(), new SpriteBuilder().setSx(7).setSy(0).setSw(2).setSh(2).setColor(Color.get(001, 334, 445, 321)).setMirror(3).createSprite(), ConnectorSprite.makeSprite(2, 2, Color.get(445, 334, 223, 223), 0, false, 0, 1, 2, 0));
 	
-	protected HardRockTile(String name) {
+	HardRockTile(String name) {
 		super(name, sprite);
 	}
 	

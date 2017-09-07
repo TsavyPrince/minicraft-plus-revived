@@ -2,7 +2,7 @@ package minicraft.entity;
 
 import minicraft.Game;
 import minicraft.gfx.Color;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.level.Level;
 
 public class Bed extends Furniture {
@@ -11,7 +11,7 @@ public class Bed extends Furniture {
 	private static Level playerLevel = null; // the player that is in bed.
 	
 	public Bed() {
-		super("Bed", new Sprite(16, 8, 2, 2, Color.get(-1, 100, 444, 400)), 3, 2);
+		super("Bed", new SpriteBuilder().setSx(16).setSy(8).setSw(2).setSh(2).setColor(Color.get(-1, 100, 444, 400)).createSprite(), 3, 2);
 	}
 	
 	/** Called when the player attempts to get in bed. */

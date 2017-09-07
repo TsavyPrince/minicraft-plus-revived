@@ -19,7 +19,7 @@ import minicraft.screen.ModeMenu;
 public class TreeTile extends Tile {
 	//private ConnectorSprite sprite = new ConnectorSprite();
 	
-	protected TreeTile(String name) {
+	TreeTile(String name) {
 		super(name, (ConnectorSprite)null);
 		connectsToGrass = true;
 	}

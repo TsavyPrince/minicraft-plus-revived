@@ -106,7 +106,7 @@ public class Creeper extends EnemyMob {
 		super.render(screen);
 	}
 
-	protected void touchedBy(Entity entity) {
+	void touchedBy(Entity entity) {
 		if (entity instanceof Player) {
 			if (fuseTime == 0) {
 				Sound.fuse.play();
@@ -121,12 +121,12 @@ public class Creeper extends EnemyMob {
 		return false;
 	}
 	
-	protected void die() {
+	void die() {
 		dropItem(1, 4-OptionsMenu.diff, Items.get("Gunpowder"));
 		super.die();
 	}
 	
-	protected String getUpdateString() {
+	String getUpdateString() {
 		String updates = super.getUpdateString() + ";";
 		updates += "fuseTime,"+fuseTime+
 		";fuseLit,"+fuseLit;
@@ -134,7 +134,7 @@ public class Creeper extends EnemyMob {
 		return updates;
 	}
 	
-	protected boolean updateField(String field, String val) {
+	boolean updateField(String field, String val) {
 		if(super.updateField(field, val)) return true;
 		switch(field) {
 			case "fuseTime":

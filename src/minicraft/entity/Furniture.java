@@ -11,8 +11,8 @@ import minicraft.screen.ModeMenu;
 
 public class Furniture extends Entity {
 	
-	protected int pushTime = 0, multiPushTime = 0; // time for each push; multi is for multiplayer, to make it so not so many updates are sent.
-	protected int pushDir = -1; // the direction to push the furniture
+	int pushTime = 0, multiPushTime = 0; // time for each push; multi is for multiplayer, to make it so not so many updates are sent.
+	int pushDir = -1; // the direction to push the furniture
 	public Sprite sprite;
 	public String name;
 	
@@ -22,7 +22,7 @@ public class Furniture extends Entity {
 		super(xr, yr);
 		this.name = name;
 		this.sprite = sprite;
-		col = sprite.color;
+		col = sprite.getColor();
 	}
 	
 	public Furniture clone() {
@@ -56,7 +56,7 @@ public class Furniture extends Entity {
 	}
 	
 	/** What happens when this is touched by another entity */
-	protected void touchedBy(Entity entity) {
+	void touchedBy(Entity entity) {
 		if (entity instanceof Player)
 			tryPush((Player) entity);
 	}
@@ -91,13 +91,13 @@ public class Furniture extends Entity {
 		return true;
 	}
 	
-	protected String getUpdateString() {
+	String getUpdateString() {
 		return super.getUpdateString()+
 		//";pushDir,"+pushDir+
 		";pushTime,"+multiPushTime;
 	}
 	
-	protected boolean updateField(String field, String val) {
+	boolean updateField(String field, String val) {
 		//if(field.equals("x") || field.equals("y")) System.out.println(Game.onlinePrefix()+"updating furniture coordinate "+field+" to "+val+": " + this);
 		
 		if(super.updateField(field, val)) return true;

@@ -3,10 +3,7 @@ package minicraft.level.tile;
 import minicraft.entity.Entity;
 import minicraft.entity.Mob;
 import minicraft.entity.Player;
-import minicraft.gfx.Color;
-import minicraft.gfx.ConnectorSprite;
-import minicraft.gfx.Screen;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.*;
 import minicraft.item.Item;
 import minicraft.item.Items;
 import minicraft.item.ToolItem;
@@ -21,10 +18,10 @@ public class SandTile extends Tile {
 		pixels[0][1] = new Sprite.Px(1, 0, 0);
 		pixels[1][0] = new Sprite.Px(1, 0, 0);
 		pixels[1][1] = new Sprite.Px(3, 1, 0);
-		steppedOn = new Sprite(pixels, Color.get(552, 550, 440, 440));
+		steppedOn = new SpriteBuilder().setPixels(pixels).setColor(Color.get(552, 550, 440, 440)).createSprite();
 	}
 	
-	private ConnectorSprite sprite = new ConnectorSprite(SandTile.class, new Sprite(11, 0, 3, 3, Color.get(440, 550, 440, 321), 3), normal)
+	private ConnectorSprite sprite = new ConnectorSprite(SandTile.class, new SpriteBuilder().setSx(11).setSy(0).setSw(3).setSh(3).setColor(Color.get(440, 550, 440, 321)).setMirror(3).createSprite(), normal)
 	{
 		public boolean connectsTo(Tile tile, boolean isSide) {
 			if(!isSide) return true;
@@ -32,7 +29,7 @@ public class SandTile extends Tile {
 		}
 	};
 	
-	protected SandTile(String name) {
+	SandTile(String name) {
 		super(name, (ConnectorSprite)null);
 		csprite = sprite;
 		connectsToSand = true;

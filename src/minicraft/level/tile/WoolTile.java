@@ -31,7 +31,7 @@ public class WoolTile extends Tile {
 	
 	private static Sprite sprite = Sprite.repeat(17, 0, 2, 2, 0);
 	
-	protected WoolTile() {
+	WoolTile() {
 		super("Wool", sprite);
 	}
 	

@@ -4,15 +4,16 @@ import minicraft.entity.Mob;
 import minicraft.gfx.Color;
 import minicraft.gfx.Screen;
 import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.level.Level;
 
 public class SaplingTile extends Tile {
-	private static Sprite sprite = new Sprite(11, 3, Color.get(20, 40, 50, -1));
+	private static Sprite sprite = new SpriteBuilder().setSx(11).setSy(3).setColor(Color.get(20, 40, 50, -1)).createSprite();
 	
 	private Tile onType;
 	private Tile growsTo;
 	
-	protected SaplingTile(String name, Tile onType, Tile growsTo) {
+	SaplingTile(String name, Tile onType, Tile growsTo) {
 		super(name, sprite);
 		this.onType = onType;
 		this.growsTo = growsTo;

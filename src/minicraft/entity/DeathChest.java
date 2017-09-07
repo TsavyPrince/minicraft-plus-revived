@@ -59,14 +59,14 @@ public class DeathChest extends Chest {
 	
 	public void take(Player player) {} // can't grab a death chest.
 	
-	protected String getUpdateString() {
+	String getUpdateString() {
 		String updates = super.getUpdateString() + ";";
 		updates += "time,"+time;
 		
 		return updates;
 	}
 	
-	protected boolean updateField(String field, String val) {
+	boolean updateField(String field, String val) {
 		if(super.updateField(field, val)) return true;
 		switch(field) {
 			case "time":

@@ -12,7 +12,7 @@ import minicraft.screen.OptionsMenu;
 public class EnemyMob extends MobAi {
 	
 	public int lvl;
-	protected int[] lvlcols;
+	int[] lvlcols;
 	public int detectDist;
 	
 	public EnemyMob(int lvl, MobSprite[][] sprites, int[] lvlcols, int health, boolean isFactor, int detectDist, int rwTime, int rwChance) {
@@ -55,7 +55,7 @@ public class EnemyMob extends MobAi {
 		super.render(screen);
 	}
 	
-	protected void touchedBy(Entity entity) { // if the entity touches the player
+	void touchedBy(Entity entity) { // if the entity touches the player
 		super.touchedBy(entity);
 		// hurts the player, damage is based on lvl.
 		if(entity instanceof Player) {
@@ -63,7 +63,7 @@ public class EnemyMob extends MobAi {
 		}
 	}
 	
-	protected void die() {
+	void die() {
 		super.die(50 * lvl, 1);
 	}
 	

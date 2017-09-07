@@ -14,12 +14,12 @@ import minicraft.level.Level;
 public class DirtTile extends Tile {
 	private static Sprite sprite = Sprite.dots(getColor(0));
 	
-	protected DirtTile(String name) {
+	DirtTile(String name) {
 		super(name, sprite);
 		maySpawn = true;
 	}
 
-	protected static int dCol(int depth) {
+	static int dCol(int depth) {
 		switch(depth) {
 			case 1: return 444; // sky.
 			case 0: return 321; // surface.

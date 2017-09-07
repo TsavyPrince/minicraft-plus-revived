@@ -1,7 +1,7 @@
 package minicraft.entity;
 
 import minicraft.gfx.Color;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 
 public class Lantern extends Furniture {
 	public enum Type {
@@ -9,8 +9,8 @@ public class Lantern extends Furniture {
 		IRON ("Iron Lantern", 12, Color.get(-1, 100, 322, 544)),
 		GOLD ("Gold Lantern", 15, Color.get(-1, 110, 440, 553));
 		
-		protected int col, light;
-		protected String title;
+		int col, light;
+		String title;
 			
 		Type(String title, int light, int col) {
 			this.title = title;
@@ -22,7 +22,7 @@ public class Lantern extends Furniture {
 	public Lantern.Type type;
 	
 	public Lantern(Lantern.Type type) {
-		super(type.title, new Sprite(10, 8, 2, 2, type.col), 3, 2);
+		super(type.title, new SpriteBuilder().setSx(10).setSy(8).setSw(2).setSh(2).setColor(type.col).createSprite(), 3, 2);
 		this.type = type;
 	}
 	

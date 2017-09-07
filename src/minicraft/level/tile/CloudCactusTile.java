@@ -8,6 +8,7 @@ import minicraft.entity.particle.SmashParticle;
 import minicraft.entity.particle.TextParticle;
 import minicraft.gfx.Color;
 import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.item.Item;
 import minicraft.item.ToolItem;
 import minicraft.item.ToolType;
@@ -16,9 +17,9 @@ import minicraft.screen.ModeMenu;
 import minicraft.screen.OptionsMenu;
 
 public class CloudCactusTile extends Tile {
-	private static Sprite sprite = new Sprite(17, 1, 2, 2, Color.get(444, 111, 333, 555));
+	private static Sprite sprite = new SpriteBuilder().setSx(17).setSy(1).setSw(2).setSh(2).setColor(Color.get(444, 111, 333, 555)).createSprite();
 	
-	protected CloudCactusTile(String name) {
+	CloudCactusTile(String name) {
 		super(name, sprite);
 	}
 	

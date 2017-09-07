@@ -4,15 +4,16 @@ import minicraft.entity.Entity;
 import minicraft.entity.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.item.Item;
 import minicraft.item.ToolItem;
 import minicraft.item.ToolType;
 import minicraft.level.Level;
 
 public class FarmTile extends Tile {
-	private static Sprite sprite = new Sprite(2, 1, 2, 2, Color.get(301, 411, 422, 533), true, new int[][] {{1, 0}, {0, 1}});
+	private static Sprite sprite = new SpriteBuilder().setSx(2).setSy(1).setSw(2).setSh(2).setColor(Color.get(301, 411, 422, 533)).setOnepixel(true).setMirrors(new int[][]{{1, 0}, {0, 1}}).createSprite();
 	
-	protected FarmTile(String name) {
+	FarmTile(String name) {
 		super(name, sprite);
 	}
 	

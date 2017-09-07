@@ -9,7 +9,7 @@ import minicraft.level.Level;
 
 public class InfiniteFallTile extends Tile {
 	
-	protected InfiniteFallTile(String name) {
+	InfiniteFallTile(String name) {
 		super(name, (Sprite)null);
 	}
 

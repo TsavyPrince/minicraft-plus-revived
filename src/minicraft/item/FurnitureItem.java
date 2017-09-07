@@ -2,14 +2,14 @@ package minicraft.item;
 
 import java.util.ArrayList;
 import minicraft.entity.*;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.level.Level;
 import minicraft.level.tile.Tile;
 import minicraft.screen.ModeMenu;
 
 public class FurnitureItem extends Item {
 	
-	protected static ArrayList<Item> getAllInstances() {
+	static ArrayList<Item> getAllInstances() {
 		ArrayList<Item> items = new ArrayList<>();
 		
 		/// there should be a spawner for each level of mob, or at least make the level able to be changed.
@@ -50,7 +50,7 @@ public class FurnitureItem extends Item {
 	}
 	
 	public FurnitureItem(Furniture furniture) {
-		super(furniture.name, new Sprite(getSpritePos(furniture.sprite.getPos()), furniture.sprite.color));
+		super(furniture.name, new SpriteBuilder().setPos(getSpritePos(furniture.sprite.getPos())).setColor(furniture.sprite.getColor()).createSprite());
 		this.furniture = furniture; // Assigns the furniture to the item
 		placed = false;
 	}

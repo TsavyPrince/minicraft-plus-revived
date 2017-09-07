@@ -13,7 +13,7 @@ import minicraft.gfx.Screen;
 import minicraft.level.Level;
 
 public class TitleMenu extends SelectMenu {
-	protected final Random random = new Random();
+	final Random random = new Random();
 private static final String[] options = {"New game", "Join Online World", "Instructions", "Tutorial", "Options", "Change Key Bindings", "About", "Quit"/*, "Kill"*/}; // Options that are on the main menu.
 	int rand;
 	int count = 0; // this and reverse are for the logo; they produce the fade-in/out effect.

@@ -3,15 +3,16 @@ package minicraft.level.tile;
 import minicraft.gfx.Color;
 import minicraft.gfx.Screen;
 import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.level.Level;
 
 public class StairsTile extends Tile {
-	private static Sprite down = new Sprite(0, 2, 2, 2, Color.get(222, 000, 333, 444), 0);
-	private static Sprite up = new Sprite(2, 2, 2, 2, Color.get(222, 000, 333, 444), 0);
+	private static Sprite down = new SpriteBuilder().setSx(0).setSy(2).setSw(2).setSh(2).setColor(Color.get(222, 000, 333, 444)).setMirror(0).createSprite();
+	private static Sprite up = new SpriteBuilder().setSx(2).setSy(2).setSw(2).setSh(2).setColor(Color.get(222, 000, 333, 444)).setMirror(0).createSprite();
 	
 	private boolean leadsUp;
 	
-	protected StairsTile(String name, boolean leadsUp) {
+	StairsTile(String name, boolean leadsUp) {
 		super(name, leadsUp?up:down);
 		this.leadsUp = leadsUp;
 		maySpawn = false;

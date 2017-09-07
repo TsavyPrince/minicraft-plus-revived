@@ -2,14 +2,11 @@ package minicraft.level.tile;
 
 import java.util.Random;
 import minicraft.entity.Entity;
-import minicraft.gfx.Color;
-import minicraft.gfx.ConnectorSprite;
-import minicraft.gfx.Screen;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.*;
 import minicraft.level.Level;
 
 public class LavaTile extends Tile {
-	private ConnectorSprite sprite = new ConnectorSprite(LavaTile.class, new Sprite(14, 0, 3, 3, Color.get(3, 500, 211, 322), 3), Sprite.dots(Color.get(500, 500, 520, 450)))
+	private ConnectorSprite sprite = new ConnectorSprite(LavaTile.class, new SpriteBuilder().setSx(14).setSy(0).setSw(3).setSh(3).setColor(Color.get(3, 500, 211, 322)).setMirror(3).createSprite(), Sprite.dots(Color.get(500, 500, 520, 450)))
 	{
 		public boolean connectsTo(Tile tile, boolean isSide) {
 			return tile.connectsToLava;
@@ -23,7 +20,7 @@ public class LavaTile extends Tile {
 		}
 	};
 	
-	protected LavaTile(String name) {
+	LavaTile(String name) {
 		super(name, (ConnectorSprite)null);
 		super.csprite = sprite;
 		connectsToSand = true;
@@ -34,8 +31,8 @@ public class LavaTile extends Tile {
 	
 	public void render(Screen screen, Level level, int x, int y) {
 		long seed = (tickCount + (x / 2 - y) * 4311) / 10 * 54687121l + x * 3271612l + y * 3412987161l;
-		sprite.full = Sprite.randomDots(seed, sprite.full.color);
-		sprite.sparse.color = Color.get(3, 500, 211, DirtTile.dCol(level.depth));
+		sprite.full = Sprite.randomDots(seed, sprite.full.getColor());
+		sprite.sparse.setColor(Color.get(3, 500, 211, DirtTile.dCol(level.depth)));
 		sprite.render(screen, level, x, y);
 	}
 	

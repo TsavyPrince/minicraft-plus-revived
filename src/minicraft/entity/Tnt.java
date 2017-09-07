@@ -7,7 +7,7 @@ import javax.swing.Timer;
 import minicraft.Sound;
 import minicraft.gfx.Color;
 import minicraft.gfx.Screen;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.level.Level;
 import minicraft.level.tile.Tiles;
 
@@ -25,7 +25,7 @@ public class Tnt extends Furniture implements ActionListener {
 	private Level levelSave;
 	
 	public Tnt() {
-		super("Tnt", new Sprite(14, 8, 2, 2, color), 3, 2);
+		super("Tnt", new SpriteBuilder().setSx(14).setSy(8).setSw(2).setSh(2).setColor(color).createSprite(), 3, 2);
 		fuseLit = false;
 		ftik = 0;
 		
@@ -95,7 +95,7 @@ public class Tnt extends Furniture implements ActionListener {
 		}
 	}
 	
-	protected String getUpdateString() {
+	String getUpdateString() {
 		String updates = super.getUpdateString() + ";";
 		updates += "fuseLit,"+fuseLit+
 		";ftik,"+ftik;
@@ -103,7 +103,7 @@ public class Tnt extends Furniture implements ActionListener {
 		return updates;
 	}
 	
-	protected boolean updateField(String field, String val) {
+	boolean updateField(String field, String val) {
 		if(super.updateField(field, val)) return true;
 		switch(field) {
 			case "fuseLit": fuseLit = Boolean.parseBoolean(val); return true;

@@ -109,7 +109,7 @@ public class LevelGen {
 		values[(x & (w - 1)) + (y & (h - 1)) * w] = value;
 	}
 	
-	protected static byte[][] createAndValidateMap(int w, int h, int level) {
+	static byte[][] createAndValidateMap(int w, int h, int level) {
 		if (level == 1)
 			return createAndValidateSkyMap(w, h);
 		if (level == 0)

@@ -6,7 +6,7 @@ import minicraft.entity.Entity;
 import minicraft.entity.Mob;
 import minicraft.entity.Player;
 import minicraft.gfx.Color;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.level.Level;
 import minicraft.level.tile.Tile;
 import minicraft.level.tile.Tiles;
@@ -14,7 +14,7 @@ import minicraft.screen.ModeMenu;
 
 public class ToolItem extends Item {
 	
-	protected static ArrayList<Item> getAllInstances() {
+	static ArrayList<Item> getAllInstances() {
 		ArrayList<Item> items = new ArrayList<>();
 		
 		items.add(new ToolItem(ToolType.FishingRod, 0));
@@ -55,7 +55,7 @@ public class ToolItem extends Item {
 	
 	/** Tool Item, requires a tool type (ToolType.Sword, ToolType.Axe, ToolType.Hoe, etc) and a level (0 = wood, 2 = iron, 4 = gem, etc) */
 	public ToolItem(ToolType type, int level) {
-		super(type.name().equals("FishingRod")?"Fishing Rod":LEVEL_NAMES[level]+" "+type.name(), new Sprite(type.sprite, 5, getColor(type, level)));
+		super(type.name().equals("FishingRod")?"Fishing Rod":LEVEL_NAMES[level]+" "+type.name(), new SpriteBuilder().setSx(type.sprite).setSy(5).setColor(getColor(type, level)).createSprite());
 		
 		this.type = type;
 		this.level = level;

@@ -66,7 +66,7 @@ public class LegacyLoad {
 		LoadingMenu.percentage = 0; // reset
 	}
 	
-	protected LegacyLoad(File unlocksFile) {
+	LegacyLoad(File unlocksFile) {
 		updateUnlocks(unlocksFile);
 	}
 	
@@ -116,7 +116,7 @@ public class LegacyLoad {
 		}
 	}
 	
-	protected void updateUnlocks(File file) {
+	void updateUnlocks(File file) {
 		String path = file.getPath();
 		loadFromFile(path);
 		

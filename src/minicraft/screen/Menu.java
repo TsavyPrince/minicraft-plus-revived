@@ -8,8 +8,8 @@ import minicraft.gfx.Font;
 import minicraft.gfx.Screen;
 
 public abstract class Menu {
-	protected Game game;
-	protected InputHandler input;
+	Game game;
+	InputHandler input;
 	
 	public void init(Game game, InputHandler input) {
 		this.input = input;
@@ -49,7 +49,7 @@ public abstract class Menu {
 	
 	/** This renders the blue frame you see when you open up the crafting/inventory menus.
 	 *  The width & height are based on 4 points (Staring x & y positions (0), and Ending x & y positions (1)). */
-	protected static void renderMenuFrame(Screen screen, String title, int x0, int y0, int x1, int y1, int sideColor, int midColor, int titleColor) {
+	static void renderMenuFrame(Screen screen, String title, int x0, int y0, int x1, int y1, int sideColor, int midColor, int titleColor) {
 		for (int y = y0; y <= y1; y++) { // loop through the height of the frame
 			for (int x = x0; x <= x1; x++) { // loop through the width of the frame
 				
@@ -68,7 +68,7 @@ public abstract class Menu {
 	}
 	
 	/// the default blue menu frame.
-	protected void renderFrame(Screen screen, String title, int x0, int y0, int x1, int y1) {
+	void renderFrame(Screen screen, String title, int x0, int y0, int x1, int y1) {
 		renderMenuFrame(screen, title, x0, y0, x1, y1, Color.get(-1, 1, 5, 445), Color.get(005, 005), Color.get(5, 5, 5, 550));
 	}
 }

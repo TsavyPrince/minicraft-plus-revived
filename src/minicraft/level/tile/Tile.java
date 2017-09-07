@@ -14,9 +14,9 @@ import minicraft.level.Level;
 
 public abstract class Tile {
 	public static int tickCount = 0; //A global tickCount used in the Lava & water tiles.
-	protected Random random = new Random();
+	Random random = new Random();
 	
-	protected enum Material {
+	enum Material {
 		Wood, Stone, Obsidian;
 		public static final Material[] values = Material.values();
 	}
@@ -32,8 +32,8 @@ public abstract class Tile {
 	public int light;
 	public boolean maySpawn;
 	
-	protected Sprite sprite;
-	protected ConnectorSprite csprite;
+	Sprite sprite;
+	ConnectorSprite csprite;
 	
 	{
 		light = 1;
@@ -42,11 +42,11 @@ public abstract class Tile {
 		csprite = null;
 	}
 	
-	protected Tile(String name, Sprite sprite) {
+	Tile(String name, Sprite sprite) {
 		this.name = name.toUpperCase();
 		this.sprite = sprite;
 	}
-	protected Tile(String name, ConnectorSprite sprite) {
+	Tile(String name, ConnectorSprite sprite) {
 		this.name = name.toUpperCase();
 		csprite = sprite;
 	}
@@ -76,9 +76,9 @@ public abstract class Tile {
 	public int getConnectColor(Level level) {
 		int scolor;
 		if(sprite != null)
-			scolor = sprite.color;
+			scolor = sprite.getColor();
 		else if(csprite != null)
-			scolor = csprite.sparse.color;
+			scolor = csprite.sparse.getColor();
 		else
 			return DirtTile.dCol(level.depth);
 		

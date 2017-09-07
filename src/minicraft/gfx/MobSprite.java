@@ -11,12 +11,12 @@ public class MobSprite extends Sprite {
 		
 		boolean flipX = (0x01 & mirror) > 0, flipY = (0x02 & mirror) > 0;
 		
-		for(int r = 0; r < spritePixels.length; r++) { // loop down through each row
-			for(int c = 0; c < spritePixels[r].length; c++) { // loop across through each column
+		for(int r = 0; r < getSpriteHeight(); r++) { // loop down through each row
+			for(int c = 0; c < getSpriteWidth(); c++) { // loop across through each column
 				// the offsets are there to determine the pixel that will be there: the one in order, or on the opposite side.
-				int xOffset = flipX ? spritePixels[r].length-1 - c : c;
-				int yOffset = flipY ? spritePixels.length-1 - r : r;
-				spritePixels[r][c] = new Px(sx+xOffset, sy+yOffset, mirror);
+				int xOffset = flipX ? getSpritePixels()[r].length-1 - c : c;
+				int yOffset = flipY ? getSpritePixels().length-1 - r : r;
+				getSpritePixels()[r][c] = new Px(sx+xOffset, sy+yOffset, mirror);
 			}
 		}
 	}

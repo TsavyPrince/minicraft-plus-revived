@@ -45,7 +45,7 @@ public class Cow extends PassiveMob {
 		return true;
 	}
 	*/
-	protected void die() {
+	void die() {
 		int min = 0, max = 0;
 		if (OptionsMenu.diff == OptionsMenu.easy) {min = 1; max = 3;}
 		if (OptionsMenu.diff == OptionsMenu.norm) {min = 1; max = 2;}

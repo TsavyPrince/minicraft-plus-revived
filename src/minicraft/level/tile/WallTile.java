@@ -10,6 +10,7 @@ import minicraft.entity.particle.TextParticle;
 import minicraft.gfx.Color;
 import minicraft.gfx.ConnectorSprite;
 import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 import minicraft.item.Item;
 import minicraft.item.Items;
 import minicraft.item.ToolItem;
@@ -20,17 +21,17 @@ import minicraft.screen.ModeMenu;
 public class WallTile extends Tile {
 	private ConnectorSprite sprite;
 	
-	protected Material type;
+	Material type;
 	
-	protected WallTile(Material type) {
+	WallTile(Material type) {
 		super(type.name()+" Wall", (ConnectorSprite)null);
 		this.type = type;
 		switch(type) {
-			case Wood: sprite = new ConnectorSprite(WallTile.class, new Sprite(4, 22, 3, 3, Color.get(100, 430, 320, 540), 3), new Sprite(7, 22, 2, 2, Color.get(100, 430, 320, 540), 3), new Sprite(5, 23, 2, 2, Color.get(430, 430, 320, 320), 0, true));
+			case Wood: sprite = new ConnectorSprite(WallTile.class, new SpriteBuilder().setSx(4).setSy(22).setSw(3).setSh(3).setColor(Color.get(100, 430, 320, 540)).setMirror(3).createSprite(), new SpriteBuilder().setSx(7).setSy(22).setSw(2).setSh(2).setColor(Color.get(100, 430, 320, 540)).setMirror(3).createSprite(), new SpriteBuilder().setSx(5).setSy(23).setSw(2).setSh(2).setColor(Color.get(430, 430, 320, 320)).setMirror(0).setOnepixel(true).createSprite());
 			break;
-			case Stone: sprite = new ConnectorSprite(WallTile.class, new Sprite(4, 25, 3, 3, Color.get(111, 333, 444, 444), 3), new Sprite(7, 24, 2, 2, Color.get(111, 444), 3), Sprite.blank(2, 2, 444));
+			case Stone: sprite = new ConnectorSprite(WallTile.class, new SpriteBuilder().setSx(4).setSy(25).setSw(3).setSh(3).setColor(Color.get(111, 333, 444, 444)).setMirror(3).createSprite(), new SpriteBuilder().setSx(7).setSy(24).setSw(2).setSh(2).setColor(Color.get(111, 444)).setMirror(3).createSprite(), Sprite.blank(2, 2, 444));
 			break;
-			case Obsidian: sprite = new ConnectorSprite(WallTile.class, new Sprite(4, 25, 3, 3, Color.get(000, 203, 103, 103), 3), new Sprite(7, 24, 2, 2, Color.get(000, 103), 3), Sprite.blank(2, 2, 103));
+			case Obsidian: sprite = new ConnectorSprite(WallTile.class, new SpriteBuilder().setSx(4).setSy(25).setSw(3).setSh(3).setColor(Color.get(000, 203, 103, 103)).setMirror(3).createSprite(), new SpriteBuilder().setSx(7).setSy(24).setSw(2).setSh(2).setColor(Color.get(000, 103)).setMirror(3).createSprite(), Sprite.blank(2, 2, 103));
 			break;
 		}
 		csprite = sprite;

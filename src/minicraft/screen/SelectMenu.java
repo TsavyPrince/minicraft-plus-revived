@@ -7,15 +7,15 @@ import minicraft.gfx.Screen;
 
 public abstract class SelectMenu extends Menu {
 	
-	protected List<String> options;
-	protected int selected;
+	List<String> options;
+	int selected;
 	
-	protected int x, y, spacing;
-	protected boolean centered;
+	int x, y, spacing;
+	boolean centered;
 	
 	private int colSelect, colOther;
 	
-	protected SelectMenu(List<String> options, int x, int y, boolean center, int spacing, int col1, int col2) {
+	SelectMenu(List<String> options, int x, int y, boolean center, int spacing, int col1, int col2) {
 		this.options = options;
 		this.x = x;
 		this.y = y;
@@ -24,10 +24,10 @@ public abstract class SelectMenu extends Menu {
 		colSelect = col1;
 		colOther = col2;
 	}
-	protected SelectMenu(List<String> options, int x, int y, int spacing, int col1, int col2) {
+	SelectMenu(List<String> options, int x, int y, int spacing, int col1, int col2) {
 		this(options, x, y, false, spacing, col1, col2);
 	}
-	protected SelectMenu(List<String> options, int y, int spacing, int col1, int col2) {
+	SelectMenu(List<String> options, int y, int spacing, int col1, int col2) {
 		this(options, 0, y, true, spacing, col1, col2);
 	}
 	
@@ -47,7 +47,7 @@ public abstract class SelectMenu extends Menu {
 		renderAs(screen, this.options, selected);
 	}
 	
-	protected void renderAs(Screen screen, List<String> options, int sel) {
+	void renderAs(Screen screen, List<String> options, int sel) {
 		for(int i = 0; i < options.size(); i++) {
 			if(options.get(i) == null) continue;
 			boolean current = sel == i;

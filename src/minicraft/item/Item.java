@@ -19,11 +19,11 @@ public abstract class Item implements ListItem {
 	
 	public boolean used_pending = false; // this is for multiplayer, when an item has been used, and is pending server response as to the outcome, this is set to true so it cannot be used again unless the server responds that the item wasn't used. Which should basically replace the item anyway, soo... yeah. this never gets set back.
 	
-	protected Item(String name) {
+	Item(String name) {
 		sprite = Sprite.missingTexture(1, 1);
 		this.name = name;
 	}
-	protected Item(String name, Sprite sprite) {
+	Item(String name, Sprite sprite) {
 		this.name = name;
 		this.sprite = sprite;
 	}
@@ -33,7 +33,7 @@ public abstract class Item implements ListItem {
 	public void renderInventory(Screen screen, int x, int y) { renderInventory(screen, x, y, true); }
 	public void renderInventory(Screen screen, int x, int y, boolean ininv) {
 		renderInventory(screen, x, y, ininv, name);}
-	protected void renderInventory(Screen screen, int x, int y, boolean ininv, String name) {
+	void renderInventory(Screen screen, int x, int y, boolean ininv, String name) {
 		sprite.render(screen, x, y);
 		if(ininv) {
 			String shortname = name.length() > 20 ? name.substring(0, 20) : name;

@@ -4,12 +4,12 @@ import minicraft.entity.Entity;
 import minicraft.entity.Furniture;
 import minicraft.entity.Player;
 import minicraft.gfx.Color;
-import minicraft.gfx.Sprite;
+import minicraft.gfx.SpriteBuilder;
 
 public class PowerGloveItem extends Item {
 	
 	public PowerGloveItem() {
-		super("Power Glove", new Sprite(7, 4, Color.get(-1, 100, 320, 430)));
+		super("Power Glove", new SpriteBuilder().setSx(7).setSy(4).setColor(Color.get(-1, 100, 320, 430)).createSprite());
 	}
 	
 	public boolean interact(Player player, Entity entity, int attackDir) {
