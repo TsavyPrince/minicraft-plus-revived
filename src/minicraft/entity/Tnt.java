@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.Timer;
 import minicraft.Sound;
+import minicraft.entity.mob.Mob;
+import minicraft.entity.mob.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Screen;
 import minicraft.gfx.Sprite;

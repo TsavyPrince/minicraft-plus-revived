@@ -1,6 +1,8 @@
-package minicraft.entity;
+package minicraft.entity.mob;
 
 import minicraft.Game;
+import minicraft.entity.Bed;
+import minicraft.entity.Entity;
 import minicraft.gfx.MobSprite;
 import minicraft.gfx.Screen;
 import minicraft.level.Level;
@@ -59,7 +61,7 @@ public class EnemyMob extends MobAi {
 		super.touchedBy(entity);
 		// hurts the player, damage is based on lvl.
 		if(entity instanceof Player) {
-			entity.hurt(this, lvl * (OptionsMenu.diff == OptionsMenu.hard ? 2 : 1), Mob.getAttackDir(this, entity));
+			entity.hurt(this, lvl * (OptionsMenu.diff == OptionsMenu.hard ? 2 : 1), getAttackDir(this, entity));
 		}
 	}
 	

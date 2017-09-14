@@ -2,7 +2,7 @@ package minicraft.level.tile;
 
 import minicraft.Sound;
 import minicraft.entity.Entity;
-import minicraft.entity.Player;
+import minicraft.entity.mob.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Sprite;
 import minicraft.item.Item;

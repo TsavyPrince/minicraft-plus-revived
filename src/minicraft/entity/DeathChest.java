@@ -1,6 +1,7 @@
 package minicraft.entity;
 
 import minicraft.Game;
+import minicraft.entity.mob.Player;
 import minicraft.gfx.Color;
 import minicraft.screen.OptionsMenu;
 

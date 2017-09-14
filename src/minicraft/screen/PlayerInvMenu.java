@@ -1,7 +1,7 @@
 package minicraft.screen;
 
 import minicraft.entity.Inventory;
-import minicraft.entity.Player;
+import minicraft.entity.mob.Player;
 import minicraft.item.Item;
 
 public class PlayerInvMenu extends InventoryMenu {

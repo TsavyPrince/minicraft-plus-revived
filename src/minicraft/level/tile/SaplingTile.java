@@ -1,6 +1,6 @@
 package minicraft.level.tile;
 
-import minicraft.entity.Mob;
+import minicraft.entity.mob.Mob;
 import minicraft.gfx.Color;
 import minicraft.gfx.Screen;
 import minicraft.gfx.Sprite;

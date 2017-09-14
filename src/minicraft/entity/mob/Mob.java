@@ -1,7 +1,8 @@
-package minicraft.entity;
+package minicraft.entity.mob;
 
 import java.util.List;
 import minicraft.Game;
+import minicraft.entity.Entity;
 import minicraft.entity.particle.TextParticle;
 import minicraft.gfx.Color;
 import minicraft.gfx.MobSprite;
@@ -190,7 +191,7 @@ public abstract class Mob extends Entity {
 		if (health > maxHealth) health = maxHealth; // If our health has exceeded our maximum, lower it back down to said maximum
 	}
 	
-	protected static int getAttackDir(Entity attacker, Entity hurt) {
+	public static int getAttackDir(Entity attacker, Entity hurt) {
 		/*
 		  Just a note here for reference:
 		  down = 0
@@ -199,23 +200,7 @@ public abstract class Mob extends Entity {
 		  right = 3
 		 */
 		
-		int xd = hurt.x - attacker.x;
-		int yd = hurt.y - attacker.y;
-		
-		if (xd == 0 && yd == 0) return -1; // the attack was from the same entity, probably; or at least the exact same space.
-		
-		if(Math.abs(xd) > Math.abs(yd)) {
-			// the x distance is more prominent than the y distance
-			if(xd < 0)
-				return Direction.LEFT;
-			else
-				return Direction.RIGHT;
-		} else {
-			if(yd < 0)
-				return Direction.UP;
-			else
-				return Direction.DOWN;
-		}
+		return Direction.getFromDelta(hurt.x - attacker.x, hurt.y - attacker.y);
 	}
 	
 	protected String getUpdateString() {

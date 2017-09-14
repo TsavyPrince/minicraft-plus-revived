@@ -1,7 +1,7 @@
 package minicraft.item;
 
 import minicraft.entity.Entity;
-import minicraft.entity.Player;
+import minicraft.entity.mob.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Font;
 import minicraft.gfx.Screen;

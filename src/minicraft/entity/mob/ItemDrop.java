@@ -1,4 +1,4 @@
-package minicraft.entity;
+package minicraft.entity.mob;
 
 import minicraft.item.Item;
 import minicraft.level.Level;
@@ -8,9 +8,7 @@ public class ItemDrop {
 	
 	/**
 	 * - Item
-	 * - chance of drop
-	 * - difficulty at which it applies
-	 * - min and max number of drops
+	 * - chance of drop on easy mode, for each number of drops
 	 * - exclusive to other drops?
 	 */
 	

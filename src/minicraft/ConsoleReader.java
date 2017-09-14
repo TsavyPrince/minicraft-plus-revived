@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Locale;
 
-import minicraft.entity.RemotePlayer;
+import minicraft.entity.mob.RemotePlayer;
 import minicraft.network.MinicraftServerThread;
 import minicraft.level.Level;
 import minicraft.saveload.Save;

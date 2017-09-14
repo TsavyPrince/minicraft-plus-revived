@@ -2,6 +2,8 @@ package minicraft.entity;
 
 import java.util.Random;
 import minicraft.Game;
+import minicraft.entity.mob.AirWizard;
+import minicraft.entity.mob.Player;
 import minicraft.entity.particle.SmashParticle;
 import minicraft.entity.particle.TextParticle;
 import minicraft.gfx.Color;

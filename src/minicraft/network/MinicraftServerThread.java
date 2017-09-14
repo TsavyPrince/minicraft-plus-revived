@@ -12,7 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import minicraft.Game;
 import minicraft.entity.Entity;
-import minicraft.entity.RemotePlayer;
+import minicraft.entity.mob.RemotePlayer;
 import minicraft.item.Item;
 import minicraft.item.PowerGloveItem;
 import minicraft.level.Level;

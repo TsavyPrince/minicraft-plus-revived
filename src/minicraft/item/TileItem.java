@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import minicraft.Game;
-import minicraft.entity.Player;
+import minicraft.entity.mob.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Sprite;
 import minicraft.level.Level;

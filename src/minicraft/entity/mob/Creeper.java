@@ -1,6 +1,7 @@
-package minicraft.entity;
+package minicraft.entity.mob;
 
 import minicraft.Sound;
+import minicraft.entity.Entity;
 import minicraft.gfx.Color;
 import minicraft.gfx.MobSprite;
 import minicraft.gfx.Screen;

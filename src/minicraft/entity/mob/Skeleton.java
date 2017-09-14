@@ -1,5 +1,6 @@
-package minicraft.entity;
+package minicraft.entity.mob;
 
+import minicraft.entity.Arrow;
 import minicraft.gfx.Color;
 import minicraft.gfx.MobSprite;
 import minicraft.item.Items;

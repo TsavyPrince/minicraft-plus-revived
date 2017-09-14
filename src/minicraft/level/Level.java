@@ -9,6 +9,7 @@ import java.util.function.ToIntFunction;
 
 import minicraft.Game;
 import minicraft.entity.*;
+import minicraft.entity.mob.*;
 import minicraft.entity.particle.Particle;
 import minicraft.gfx.Screen;
 import minicraft.item.Item;
@@ -512,16 +513,17 @@ public class Level {
 	public void printEntityStatus(String entityMessage, Entity entity, String... searching) {
 		// "searching" can contain any number of class names I want to print when found.
 		String clazz = entity.getClass().getCanonicalName();
+		String packageName = clazz.substring(0, clazz.lastIndexOf("."));
 		clazz = clazz.substring(clazz.lastIndexOf(".")+1);
 		for(String search: searching) {
 			try {
-				if(Class.forName("minicraft.entity."+search).isAssignableFrom(entity.getClass())) {
+				if(Class.forName(packageName+"."+search).isAssignableFrom(entity.getClass())) {
 					if (clazz.equals("AirWizard")) clazz += ((AirWizard)entity).secondform ? " II" : "";
 					printLevelLoc(Game.onlinePrefix()+entityMessage + clazz, entity.x>>4, entity.y>>4, ": " + entity);
 					break;
 				}
 			} catch(ClassNotFoundException ex) {
-				ex.printStackTrace();
+				//ex.printStackTrace();
 			}
 		}
 	}

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import minicraft.Game;
 import minicraft.entity.*;
+import minicraft.entity.mob.*;
 import minicraft.item.ArmorItem;
 import minicraft.item.Item;
 import minicraft.item.Items;

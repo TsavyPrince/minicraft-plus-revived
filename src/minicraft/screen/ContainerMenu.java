@@ -4,7 +4,7 @@ import minicraft.Game;
 import minicraft.Sound;
 import minicraft.entity.Chest;
 import minicraft.entity.Inventory;
-import minicraft.entity.Player;
+import minicraft.entity.mob.Player;
 import minicraft.gfx.Screen;
 import minicraft.item.Item;
 import minicraft.item.StackableItem;

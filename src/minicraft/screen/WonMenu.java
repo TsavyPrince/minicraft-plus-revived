@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import minicraft.Game;
-import minicraft.entity.Player;
+import minicraft.entity.mob.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Font;
 import minicraft.gfx.FontStyle;

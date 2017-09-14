@@ -3,6 +3,9 @@ package minicraft.entity;
 import java.util.List;
 import java.util.Random;
 import minicraft.Game;
+import minicraft.entity.mob.Mob;
+import minicraft.entity.mob.MobAi;
+import minicraft.entity.mob.Player;
 import minicraft.gfx.Screen;
 import minicraft.item.Item;
 import minicraft.level.Level;
@@ -162,11 +165,12 @@ public abstract class Entity {
 		}
 		List<Entity> isInside = level.getEntitiesInRect(x + xa - xr, y + ya - yr, x + xa + xr, y + ya + yr); // gets the entities that this entity will touch once moved.
 		for (int i = 0; i < isInside.size(); i++) {
-			/// cycles through entites about to be touched, and calls touchedBy(this) for each of them.
+			/// cycles through entities about to be touched, and calls touchedBy(this) for each of them.
 			Entity e = isInside.get(i);
 			if (e == this) continue; // touching yourself doesn't count.
 			
 			e.touchedBy(this); // call the method. ("touch" the entity)
+			this.touchedBy(e); // it goes both ways.
 			
 			//if(Game.debug && e != this && (e instanceof Player || this instanceof Player)) System.out.println("entity " + this.toClassString() + " is moving inside furniture " + e.toClassString());
 		}

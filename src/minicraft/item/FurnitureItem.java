@@ -2,6 +2,7 @@ package minicraft.item;
 
 import java.util.ArrayList;
 import minicraft.entity.*;
+import minicraft.entity.mob.*;
 import minicraft.gfx.Sprite;
 import minicraft.level.Level;
 import minicraft.level.tile.Tile;

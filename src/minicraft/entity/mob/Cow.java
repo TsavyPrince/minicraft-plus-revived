@@ -1,4 +1,4 @@
-package minicraft.entity;
+package minicraft.entity.mob;
 
 import minicraft.gfx.Color;
 import minicraft.gfx.MobSprite;

@@ -1,4 +1,4 @@
-package minicraft.entity;
+package minicraft.entity.mob;
 
 import minicraft.Game;
 import minicraft.gfx.MobSprite;
@@ -42,7 +42,7 @@ public class PassiveMob extends MobAi {
 		
 		int r = (ModeMenu.score ? 22 : 15) + (Game.getTime() == Game.Time.Night ? 0 : 5); // get no-mob radius by
 		
-		if(!MobAi.checkStartPos(level, x, y, 80, r))
+		if(!checkStartPos(level, x, y, 80, r))
 			return false;
 		
 		Tile tile = level.getTile(x >> 4, y >> 4);

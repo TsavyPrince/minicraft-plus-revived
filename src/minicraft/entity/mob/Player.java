@@ -1,4 +1,4 @@
-package minicraft.entity;
+package minicraft.entity.mob;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,13 @@ import java.util.List;
 import minicraft.Game;
 import minicraft.InputHandler;
 import minicraft.Sound;
+import minicraft.entity.Arrow;
+import minicraft.entity.Bed;
+import minicraft.entity.DeathChest;
+import minicraft.entity.Entity;
+import minicraft.entity.Furniture;
+import minicraft.entity.Inventory;
+import minicraft.entity.ItemEntity;
 import minicraft.entity.particle.TextParticle;
 import minicraft.gfx.Color;
 import minicraft.gfx.MobSprite;
@@ -840,11 +847,11 @@ public class Player extends Mob {
 	}
 	
 	/** What happens when the player touches an entity */
-	protected void touchedBy(Entity entity) {
+	/*protected void touchedBy(Entity entity) {
 		if (!(entity instanceof Player)) { // prevents stack-overflow
 			entity.touchedBy(this); // calls the other entity's touchedBy method.
 		}
-	}
+	}*/
 	
 	public void hurt(int damage, int attackDir) { doHurt(damage, attackDir); }
 	/** What happens when the player is hurt */

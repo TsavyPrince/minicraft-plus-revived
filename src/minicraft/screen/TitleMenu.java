@@ -7,7 +7,7 @@ import minicraft.Game;
 import minicraft.GameApplet;
 import minicraft.InputHandler;
 import minicraft.Sound;
-import minicraft.entity.RemotePlayer;
+import minicraft.entity.mob.RemotePlayer;
 import minicraft.gfx.Color;
 import minicraft.gfx.Font;
 import minicraft.gfx.Screen;

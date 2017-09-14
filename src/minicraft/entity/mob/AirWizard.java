@@ -1,7 +1,9 @@
-package minicraft.entity;
+package minicraft.entity.mob;
 
 import minicraft.Game;
 import minicraft.Sound;
+import minicraft.entity.Entity;
+import minicraft.entity.Spark;
 import minicraft.gfx.Color;
 import minicraft.gfx.Font;
 import minicraft.gfx.MobSprite;
@@ -168,7 +170,7 @@ public class AirWizard extends EnemyMob {
 	protected void touchedBy(Entity entity) {
 		if (entity instanceof Player) {
 			// if the entity is the Player, then deal them 1 or 2 damage points.
-			entity.hurt(this, (secondform ? 2 : 1), Mob.getAttackDir(this, entity));
+			entity.hurt(this, (secondform ? 2 : 1), getAttackDir(this, entity));
 		}
 	}
 	
