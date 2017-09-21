@@ -75,6 +75,7 @@ public class Sprite {
 	public Sprite(Px[][] pixels) { this(pixels, 0); }
 	public Sprite(Px[][] pixels, int color) {
 		spritePixels = pixels;
+		sheetLoc = new Rectangle();
 		this.setColor(color);
 	}
 	
