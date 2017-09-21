@@ -10,7 +10,7 @@ import minicraft.level.tile.Tile;
 
 public abstract class Entity {
 	/// entity coordinates are per pixel, not per tile; each tile is 16x16 entity pixels.
-	final Random random = new Random();
+	protected final Random random = new Random();
 	public int x, y; // x, y entity coordinates on the map
 	public int xr, yr; // x, y radius of entity
 	private boolean removed; // Determines if the entity is removed from it's level; checked in Level.java

@@ -37,12 +37,12 @@ public class ConnectorSprite {
 	
 	public void render(Screen screen, Level level, int x, int y) {
 		if(!configured)
-			update(level, x, y, sparse.getColor(), sides.getColor(), full.getColor());
+			update(screen, level, x, y, sparse.getColor(), sides.getColor(), full.getColor());
 		
 		current.render(screen, x, y);
 	}
 	
-	private void update(Level level, int x, int y, int colsparse, int colside, int colfull) {
+	private void update(Screen screen, Level level, int x, int y, int colsparse, int colside, int colfull) {
 		//System.out.println("rendering sprite for tile " + owner);
 		current = new SpriteBuilder().setSx(0).setSy(0).setSw(2).setSh(2).createSprite();
 		

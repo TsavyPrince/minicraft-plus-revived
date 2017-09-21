@@ -10,10 +10,18 @@ public class SpriteBuilder {
 	private boolean onepixel = false;
 	private int[][] mirrors;
 	private Sprite.Px[][] pixels;
-	}
+	
 	
 	public SpriteBuilder setColor(int color) {
 		this.color = color;
+		return this;
+	}
+	
+	public SpriteBuilder setPos(int pos) {
+		int x = pos%32;
+		int y = pos/32;
+		setSx(x);
+		setSy(y);
 		return this;
 	}
 	
