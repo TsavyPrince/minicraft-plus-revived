@@ -11,6 +11,8 @@ Note to self: for more little bugs/ideas/concerns, search code for "TODO"
 ####
 Sound effects don't always play when they should; mostly it seems when other sounds should be on at the same time.
 ####
+it is possible to duplicate items through repeated dropping and picking up.
+####
 
 #####
 MULTIPLAYER-Related:
