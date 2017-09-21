@@ -140,7 +140,7 @@ class ConsoleReader extends Thread {
 		("<mode>", "change the server gamemode.", "mode: one of the following: c(reative), su(rvivial), t(imed) / score, h(ardcore)") {
 			public void run(String[] args, Game game) {
 				if(args.length != 1) {
-					System.out.println("incorrent number of arguments. Please specify the game mode in one word:");
+					System.out.println("incorrect number of arguments. Please specify the game mode in one word:");
 					printHelp(this, game);
 					return;
 				}
@@ -300,6 +300,13 @@ class ConsoleReader extends Thread {
 				} else {
 					System.out.println("could not perform teleport; coordinates are not valid.");
 				}
+			}
+		},
+		
+		PING ("", "Pings all the clients, and prints a message when each responds.") {
+			@Override
+			public void run(String[] args, Game game) {
+				Game.server.pingClients();
 			}
 		};
 		

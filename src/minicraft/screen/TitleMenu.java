@@ -6,6 +6,7 @@ import java.util.Random;
 import minicraft.Game;
 import minicraft.GameApplet;
 import minicraft.InputHandler;
+import minicraft.Sound;
 import minicraft.entity.RemotePlayer;
 import minicraft.gfx.Color;
 import minicraft.gfx.Font;
@@ -51,10 +52,10 @@ private static final String[] options = {"New game", "Join Online World", "Instr
 		"Gold > Iron",
 		"Gem > Gold",
 		"Test == InDev!",
-		"Alpha? What's that?",
-		"Beta? What's that?",
+		//"Alpha? What's that?",
+		//"Beta? What's that?",
 		//"Infdev? What's that?",
-		"Story? I've heard of that...",
+		"Story? Hmm...",
 		"Infinite terrain? What's that?",
 		"Redstone? What's that?",
 		//"Spiders? What are those?",
@@ -217,6 +218,8 @@ private static final String[] options = {"New game", "Join Online World", "Instr
 		}
 		
 		if (input.getKey("select").clicked) {
+			Sound.confirm.play();
+			
 			if (options[selected].equals("New game")) {
 				WorldSelectMenu.loadworld = false;
 				game.setMenu(new WorldSelectMenu());
@@ -247,7 +250,7 @@ private static final String[] options = {"New game", "Join Online World", "Instr
 		screen.clear(0);
 		int h = 2; // Height of squares (on the spritesheet)
 		int w = 15; // Width of squares (on the spritesheet)
-		int titleColor = Color.get(-1, 010, 131, 551);
+		int titleColor = Color.get(-1, 10, 131, 551);
 		int xo = (Screen.w - w * 8) / 2; // X location of the title
 		int yo = 36; // Y location of the title
 		int cols = Color.get(-1, 550);

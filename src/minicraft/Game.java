@@ -51,23 +51,23 @@ public class Game extends Canvas implements Runnable {
 	/// MANAGERIAL VARS AND RUNNING
 	
 	public static final String NAME = "Minicraft Plus"; // This is the name on the application window
-	public static final String VERSION = "2.0.3-dev4";
+	public static final String VERSION = "2.0.3";
 	public static final int HEIGHT = 192;
 	public static final int WIDTH = 288;
 	private static float SCALE = 3;
 	
-	public static final String os;
+	public static final String OS;
 	public static final String localGameDir;
 	public static final String systemGameDir;
 	static {
-		os = System.getProperty("os.name").toLowerCase();
+		OS = System.getProperty("os.name").toLowerCase();
 		//System.out.println("os name: \"" +os + "\"");
-		if(os.contains("windows")) // windows
+		if(OS.contains("windows")) // windows
 			systemGameDir = System.getenv("APPDATA");
 		else
 			systemGameDir = System.getProperty("user.home");
 		
-		if(os.contains("mac") || os.contains("nix") || os.contains("nux") || os.contains("aix")) // mac or linux
+		if(OS.contains("mac") || OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) // mac or linux
 			localGameDir = "/.playminicraft/mods/Minicraft_Plus";
 		else
 			localGameDir = "/playminicraft/mods/Minicraft_Plus"; // windows, probably.
@@ -133,7 +133,7 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public InputHandler input; // input used in Game, Player, and just about all the *Menu classes.
-	public Menu menu; // the current menu you are on.
+	public Menu menu, newMenu; // the current menu you are on.
 	public Player player; // The Player.
 	//public Level level; // This is the current level you are on.
 	static int worldSize = 128; // The size of the world
@@ -178,7 +178,7 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 	
-	/// *** CONSTRUSTOR *** ///
+	/// *** CONSTRUCTOR *** ///
 	public Game() {
 		input = new InputHandler(this);
 		
@@ -196,29 +196,9 @@ public class Game extends Canvas implements Runnable {
 		gameOver = false;
 	}
 	
-	/*
-	public static final byte[] intToBytes(int num) {
-		byte[] bytes = new byte[4];
-		bytes[0] = num >> (8*3);
-		bytes[1] = num >> (8*2) & 0xff;
-		bytes[2] = num >> cdm8 & 0xff;
-		bytes[3] = num & 0xff;
-	}
-	
-	public static final int bytesToInt(byte[] bytes) {
-		if(bytes.length != 4) return 0;
-		
-		int num = 0;
-		num += bytes[0] << 24;
-		num += bytes[1] << 16;
-		num += bytes[2] << 8;
-		num += bytes[3];
-	}
-	*/
-	
 	// Sets the current menu.
 	public void setMenu(Menu menu) {
-		this.menu = menu;
+		this.newMenu = menu;
 		//if (debug) System.out.println("setting game menu to " + menu);
 		if (menu != null) menu.init(this, input);
 	}
@@ -385,6 +365,9 @@ public class Game extends Canvas implements Runnable {
 	// VERY IMPORTANT METHOD!! Makes everything keep happening.
 	// In the end, calls menu.tick() if there's a menu, or level.tick() if no menu.
 	public void tick() {
+		if(newMenu != menu)
+			menu = newMenu;
+		
 		Level level = levels[currentLevel];
 		if (Bed.inBed && !Game.isValidClient()) {
 			// IN BED
@@ -594,7 +577,7 @@ public class Game extends Canvas implements Runnable {
 						if(input.getKey("shift-u").clicked) {
 							levels[currentLevel].setTile(player.x>>4, player.y>>4, Tiles.get("Stairs Up"));
 						}
-						if(input.getKey("shift-j").clicked) {
+						if(input.getKey("shift-d").clicked) {
 							levels[currentLevel].setTile(player.x>>4, player.y>>4, Tiles.get("Stairs Down"));
 						}
 						
@@ -1040,7 +1023,8 @@ public class Game extends Canvas implements Runnable {
 				}
 				
 				//info.add("steps: " + player.stepCount);
-				info.add("micro-hunger:" + player.hungerStamCnt);
+				if(debug)
+					info.add("micro-hunger:" + player.hungerStamCnt);
 				//info.add("health regen:" + player.hungerStamCnt);
 			}
 			
@@ -1103,7 +1087,7 @@ public class Game extends Canvas implements Runnable {
 				//if (Game.debug) System.out.println("jar path: " + uri.getPath());
 				//if (Game.debug) System.out.println("jar string: " + uri.toString());
 				jarFilePath = uri.getPath();
-				if(os.contains("windows") && jarFilePath.startsWith("/"))
+				if(OS.contains("windows") && jarFilePath.startsWith("/"))
 					jarFilePath = jarFilePath.substring(1);
 			} catch(URISyntaxException ex) {
 				System.err.println("problem with jar file URI syntax.");
@@ -1245,7 +1229,7 @@ public class Game extends Canvas implements Runnable {
 		if(!testFile.exists() && testFileOld.exists()) {
 			// rename the old folders to the new scheme
 			testFile.mkdirs();
-			if(os.contains("windows")) {
+			if(OS.contains("windows")) {
 				try {
 					java.nio.file.Files.setAttribute(testFile.toPath(), "dos:hidden", true);
 				} catch (java.io.IOException ex) {
@@ -1267,7 +1251,7 @@ public class Game extends Canvas implements Runnable {
 			deleteAllFiles(testFileOld);
 			
 			testFile = new File(systemGameDir + ".playminicraft");
-			if(os.contains("windows") && testFile.exists())
+			if(OS.contains("windows") && testFile.exists())
 				deleteAllFiles(testFile);
 		}
 		

@@ -329,7 +329,13 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 			thread.sendData(InputType.GAME, vars);
 	}
 	
-	File[] getRemotePlayerFiles() {
+	public void pingClients() {
+		System.out.println("pinging clients ("+threadList.size()+" connected)...");
+		for(MinicraftServerThread thread: getThreads())
+			thread.doPing();
+	}
+	
+	protected File[] getRemotePlayerFiles() {
 		File saveFolder = new File(worldPath);
 		
 		File[] clientSaves = saveFolder.listFiles((file, name) -> name.startsWith("RemotePlayer"));
@@ -372,6 +378,10 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 		}
 		
 		switch(inType) {
+			case PING:
+				System.out.println("Received ping from " + serverThread);
+				return true;
+			
 			case LOGIN:
 				if (Game.debug) System.out.println("SERVER: received login request");
 				if (Game.debug) System.out.println("SERVER: login data: " + Arrays.toString(data));
@@ -482,13 +492,18 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 				//System.out.println(Arrays.toString(tiledata));
 				
 				StringBuilder tiledataString = new StringBuilder();
-				for(byte b: tiledata) {
+				/*for(byte b: tiledata) {
 					int tbit = (int) b;
-					if(tbit < 0) tbit += 256;
+					if(Game.debug) System.out.print(tbit+",");
 					tbit++;
+					if(tbit < 0) tbit += 256;
+					if(tbit < 0) System.out.println("\nTBIT < 0: " + tbit);
 					tiledataString.append((char) tbit);
+				}*/
+				for(byte b: tiledata) {
+					tiledataString.append(b).append(",");
 				}
-				serverThread.sendData(InputType.TILES, tiledataString.toString());
+				serverThread.sendData(InputType.TILES, tiledataString.substring(0, tiledataString.length()-1));
 				serverThread.sendCachedPackets();
 				
 				/// send back the entities in the level specified.
@@ -535,7 +550,13 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 				return true;
 			
 			case DROP:
-				Load.loadEntity(alldata, game, false);
+				//if(Game.debug) System.out.println("SERVER: received item drop: " + alldata);
+				Item dropped = Items.get(alldata);
+				Level playerLevel = clientPlayer.getLevel();
+				if(playerLevel != null)
+					playerLevel.dropItem(clientPlayer.x, clientPlayer.y, dropped);
+				//Entity dropped = Load.loadEntity(alldata, game, false);
+				//broadcastEntityAddition(dropped, true);
 				return true;
 			
 			case TILE:

@@ -23,8 +23,6 @@ public abstract class Mob extends Entity {
 	int walkTime;
 	public int speed;
 	public int tickTime = 0; // Incremented whenever tick() is called, is effectively the age in ticks
-	// TODO take all these swimTime, woolTime, and walkTime and consolidate into a getSlowness() method, that checks and adds each possible source of slowness and returns the result.
-		// or don't.
 	
 	public Mob(MobSprite[][] sprites, int health) {
 		super(4, 3);
@@ -200,7 +198,6 @@ public abstract class Mob extends Entity {
 		  left = 2
 		  right = 3
 		 */
-		
 		
 		int xd = hurt.x - attacker.x;
 		int yd = hurt.y - attacker.y;
