@@ -12,6 +12,7 @@ import java.util.List;
 
 import minicraft.core.Game;
 import minicraft.core.Network;
+import minicraft.core.Renderer;
 import minicraft.core.io.Settings;
 import minicraft.core.Updater;
 import minicraft.core.World;
@@ -604,8 +605,10 @@ public class Load {
 		int y = Integer.parseInt(info.get(1));
 		
 		int eid = -1;
-		if(!isLocalSave) {
+		if(!isLocalSave)
 			eid = Integer.parseInt(info.remove(2));
+		if(!isLocalSave && Renderer.readyToRenderGameplay) {
+			//eid = Integer.parseInt(info.remove(2));
 			
 			/// If I find an entity that is loaded locally, but on another level in the entity data provided, then I ditch the current entity and make a new one from the info provided.
 			Entity existing = Network.getEntity(eid);
@@ -617,9 +620,9 @@ public class Load {
 					System.out.println(Network.onlinePrefix()+"received entity data equals a loaded entity: " + existing + "; removing from level " + existing.getLevel());
 				*/
 				//existing.remove();
-				existing.remove();
-				Game.levels[Game.currentLevel].add(existing);
-				return null;
+				//existing.remove();
+				//Game.levels[Game.currentLevel].add(existing);
+				//return null;
 			}
 			
 			/*if(existing == null && Game.isValidClient() && Game.player.eid == eid) {
@@ -633,7 +636,7 @@ public class Load {
 				return existing;
 			}*/
 			
-			if(Game.isValidClient() && Game.player instanceof RemotePlayer && 
+			if(Game.isValidClient() && Game.player instanceof RemotePlayer && ((RemotePlayer)Game.player).eid != eid && 
 				!((RemotePlayer)Game.player).shouldTrack(x >> 4, y >> 4, World.levels[entityLevel])
 				) {
 				// the entity is too far away to bother adding to the level.
@@ -643,10 +646,10 @@ public class Load {
 				return dummy; /// we need a dummy b/c it's the only way to pass along to entity id.
 			}
 			
-			if(Game.isValidClient() && existing != null && existing.eid == Game.player.eid) {
+			/*if(Game.isValidClient() && existing != null && existing.eid == Game.player.eid) {
 				System.out.println("CLIENT WARNING: asked to reload main player from server; ignoring.");
 				return Game.player; // don't load the main player
-			}
+			}*/
 		}
 		
 		Entity newEntity = null;

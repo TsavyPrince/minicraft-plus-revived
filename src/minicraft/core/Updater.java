@@ -210,6 +210,11 @@ public class Updater extends Game {
 					Renderer.showinfo = !Renderer.showinfo;
 				}
 				
+				if(Game.player.getLevel() != null && levels[currentLevel] != null && Renderer.readyToRenderGameplay && Game.player.getLevel() != Game.levels[Game.currentLevel] && Game.isValidClient()) {
+					Game.player.remove();
+					levels[currentLevel].add(player);
+				}
+				
 				//for debugging only
 				if (debug && HAS_GUI) {
 					

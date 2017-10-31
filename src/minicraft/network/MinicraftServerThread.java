@@ -210,6 +210,8 @@ public class MinicraftServerThread extends MinicraftConnection {
 		client.remove(); // hopefully removes it from any level it might still be on
 		client = new RemotePlayer(false, client);
 		client.respawn(World.levels[World.lvlIdx(0)]); // get the spawn loc. of the client
+		Game.levels[0].add(client);
+		System.out.println("sending player respawn data...");
 		sendData(InputType.PLAYER, client.getPlayerData()); // send spawn loc.
 	}
 	

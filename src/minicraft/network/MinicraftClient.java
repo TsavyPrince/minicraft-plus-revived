@@ -1,5 +1,7 @@
 package minicraft.network;
 
+import javax.swing.Timer;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -92,19 +94,30 @@ public class MinicraftClient extends MinicraftConnection {
 		curState = newState;
 		
 		switch(newState) {
-			case LOGIN: sendData(InputType.LOGIN, ((RemotePlayer)Game.player).getUsername()+";"+Game.VERSION); break;
+			case LOGIN:
+				Renderer.readyToRenderGameplay = false;
+				sendData(InputType.LOGIN, ((RemotePlayer)Game.player).getUsername()+";"+Game.VERSION);
+				break;
 			
 			case LOADING:
 				Game.setMenu(menu);
+				Renderer.readyToRenderGameplay = false;
 				menu.setLoadingMessage("Tiles");
 				sendData(InputType.LOAD, String.valueOf(Game.currentLevel));
 				break;
 			
 			case PLAY:
 				if (Game.debug) System.out.println("CLIENT: Begin game!");
+				//Game.player.remove();
 				World.levels[Game.currentLevel].add(Game.player);
 				Renderer.readyToRenderGameplay = true;
 				Game.setMenu(null);
+				Timer t = new Timer(500, e -> {
+					Network.getEntity(Game.player.eid).remove();
+					World.levels[Game.currentLevel].add(Game.player);
+				});
+				t.setRepeats(false);
+				t.start();
 				break;
 		}
 	}
@@ -242,10 +255,10 @@ public class MinicraftClient extends MinicraftConnection {
 				return true;
 			
 			case ENTITIES:
-				if(curState != State.LOADING) {// ignore
+				/*if(curState != State.LOADING) {// ignore
 					System.out.println("ignoring level entity data because client state is not LOADING: " + curState);
 					return false;
-				}
+				}*/
 				
 				if (Game.debug) System.out.println("CLIENT: received entities");
 				Level curLevel = World.levels[Game.currentLevel];
@@ -324,6 +337,10 @@ public class MinicraftClient extends MinicraftConnection {
 				}
 				return false;
 			
+			case RESPAWN:
+				changeState(State.LOADING);
+				return true;
+			
 			case ENTITY:
 				// these shouldn't occur while loading, becuase the server caches them. But just in case, let's make sure.
 				if(curState == State.LOADING)
@@ -333,6 +350,7 @@ public class MinicraftClient extends MinicraftConnection {
 				//if (Game.debug) System.out.println("CLIENT: received entity update for: " + entityid);
 				String updates = alldata.substring(alldata.indexOf(";")+1);
 				Entity entity = Network.getEntity(entityid);
+				
 				if(entity == null) {
 					//System.err.println("CLIENT: couldn't find entity specified to update: " + entityid + "; could not apply updates: " + updates);
 					if(entityRequests.containsKey(entityid) && (System.nanoTime() - entityRequests.get(entityid))/1E8 > 15L) { // this will make it so that there has to be at least 1.5 seconds between each time a certain entity is requested. Also, it won't request the entity the first time around; it has to wait a bit after the first attempt before it will actually request it.
@@ -356,25 +374,18 @@ public class MinicraftClient extends MinicraftConnection {
 				return true;
 			
 			case PLAYER:
-				//if (Game.debug) System.out.println("CLIENT: received player packet");
-				/*if(setPlayer) {
-					if (Game.debug) System.out.println("CLIENT: ignoring set player, already set");
-					return false;
-				}*/
 				// use the contained data to load up the player object vars.
-				//if(Game.debug) System.out.println("CLIENT: player data received: " + alldata);
+				if(Game.debug) System.out.println("CLIENT: player data received: " + alldata);
 				String[] playerparts = alldata.split("\\n");
 				List<String> playerinfo = Arrays.asList(playerparts[0].split(","));
 				List<String> playerinv = Arrays.asList(playerparts[1].split(","));
 				Load load = new Load();
 				if (Game.debug) System.out.println("CLIENT: setting player vars from packet...");
-				//if(Game.isMode("creative")) {
-					//if(Game.debug) System.out.println("CLIENT: in creative mode, filling creative inv...");
 					
 				if(!(playerinv.size() == 1 && playerinv.get(0).equals("null")))
 					load.loadInventory(Game.player.inventory, playerinv);
 				load.loadPlayer(Game.player, playerinfo);
-				//setPlayer = true;
+				
 				if(Game.getMenu() instanceof PlayerDeathDisplay) {
 					Game.setMenu(null);
 				}
@@ -489,7 +500,13 @@ public class MinicraftClient extends MinicraftConnection {
 		sendData(InputType.DIE, chestData);
 	}
 	
-	public void requestRespawn() { sendData(InputType.RESPAWN, ""); }
+	public void requestRespawn() {
+		System.out.println("requesting respawn...");
+		//sendData(InputType.RESPAWN, "");
+		//sendData(InputType.LOGIN, );
+		changeState(State.LOGIN);
+		//sendData(InputType.LOAD, ""+Game.currentLevel);
+	}
 	
 	public void addToChest(Chest chest, Item item) {
 		if(chest == null || item == null) return;

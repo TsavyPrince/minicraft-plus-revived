@@ -200,6 +200,9 @@ public abstract class Entity {
 			Game.server.broadcastEntityRemoval(this);
 		}
 		
+		if(this.level != level && this.level != null)
+			this.level.remove(this);
+		
 		this.level = level;
 		removed = false;
 		this.x = x;

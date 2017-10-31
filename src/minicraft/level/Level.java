@@ -265,12 +265,10 @@ public class Level {
 				//if (Game.isValidServer() && e instanceof RemotePlayer && Game.server.getThreads().getAssociatedThread((RemotePlayer) e))
 				//	e.remove();
 				if (e instanceof Mob) count++;
+				
+				if(e.getLevel() == null || e.getLevel() != this)
+					entities.remove(e);
 			}
-			
-			
-			for (Entity e : getEntityArray())
-				if (e.isRemoved() || e.getLevel() != this)
-					remove(e);
 		}
 		
 		while(count > maxMobCount) {
@@ -401,10 +399,7 @@ public class Level {
 		list.sort(spriteSorter);
 		for (int i = 0; i < list.size(); i++) {
 			Entity e = list.get(i);
-			if(e.getLevel() == this && !e.isRemoved())
-				e.render(screen);
-			else
-				remove(e);
+			e.render(screen);
 		}
 	}
 	
@@ -530,7 +525,7 @@ public class Level {
 			entities.clear();
 		else
 			for(Entity e: getEntityArray())
-				e.remove();
+				e.remove(this);
 	}
 	
 	public Entity[] getEntityArray() {

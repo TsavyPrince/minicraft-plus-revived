@@ -36,6 +36,7 @@ import minicraft.saveload.Save;
 import minicraft.screen.WorldSelectDisplay;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class MinicraftServer extends Thread implements MinicraftProtocol {
 	
@@ -158,6 +159,7 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 		return players;
 	}
 	
+	@Nullable
 	private RemotePlayer getIfPlayer(Entity e) {
 		if(e instanceof RemotePlayer) {
 			RemotePlayer given = (RemotePlayer) e;
@@ -172,6 +174,7 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 			return null;
 	}
 	
+	@Nullable
 	public MinicraftServerThread getAssociatedThread(String username) {
 		MinicraftServerThread match = null;
 		
@@ -406,9 +409,13 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 				}
 				
 				// check if the same username already exists on the server (due to glitches), and if so, remove it
-				MinicraftServerThread oldThread;
-				while((oldThread = getAssociatedThread(username)) != null)
-					oldThread.endConnection();
+				//
+				//while((oldThread = getAssociatedThread(username)) != null) {
+				//}
+				MinicraftServerThread oldThread = getAssociatedThread(username);
+				if(oldThread != null) {
+					clientPlayer = oldThread.getClient();
+				}
 				
 				/// versions match, and username is unique; make client player
 				clientPlayer.setUsername(username);
@@ -525,29 +532,7 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 				
 				/// send back the entities in the level specified.
 				
-				Entity[] entities = World.levels[levelidx].getEntityArray();
-				serverThread.cachePacketTypes(InputType.entityUpdates);
-				
-				//if (Game.debug) System.out.println("client player level on load request: " + clientPlayer.getLevel());
-				StringBuilder edata = new StringBuilder();
-				for(int i = 0; i < entities.length; i++) {
-					Entity curEntity = entities[i];
-					if(!clientPlayer.shouldTrack(curEntity.x>>4, curEntity.y>>4, curEntity.getLevel()))
-						continue; // this is outside of the player's entity tracking range; doesn't need to know about it yet.
-					String curEntityData = "";
-					if(curEntity != clientPlayer) {
-						curEntityData = Save.writeEntity(curEntity, false) + ",";
-						if(Game.debug && curEntity instanceof Player) System.out.println("SERVER: sending player in ENTITIES packet: " + curEntity);
-					}
-					// there is enough space.
-					if(curEntityData.length() > 1) // 1 b/c of the "," added; this prevents entities that aren't saved from causing ",," to appear.
-						edata.append(curEntityData);
-				}
-				
-				String edataToSend = edata.substring(0, Math.max(0, edata.length()-1)); // cut off trailing comma
-				
-				serverThread.sendData(InputType.ENTITIES, edataToSend);
-				serverThread.sendCachedPackets();
+				sendEntities(levelidx, clientPlayer, serverThread);
 				
 				return true;
 			
@@ -558,8 +543,11 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 				return true;
 			
 			case RESPAWN:
+				System.out.println("received player respawn request");
 				serverThread.respawnPlayer();
 				broadcastEntityAddition(clientPlayer);
+				serverThread.sendData(InputType.RESPAWN, "");
+				//sendEntities(World.lvlIdx(0), clientPlayer, serverThread);
 				return true;
 			
 			case DISCONNECT:
@@ -781,6 +769,33 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 				broadcastData(inType, alldata, serverThread);
 				return true;
 		}
+	}
+	
+	private void sendEntities(int levelidx, RemotePlayer clientPlayer, MinicraftServerThread serverThread) {
+		if (Game.debug) System.out.println("sending entities to player " + clientPlayer + " at " + (clientPlayer.x>>4)+","+(clientPlayer.y>>4) + " on level " + World.idxToDepth[levelidx]);
+		Entity[] entities = World.levels[levelidx].getEntityArray();
+		serverThread.cachePacketTypes(InputType.entityUpdates);
+		
+		//if (Game.debug) System.out.println("client player level on load request: " + clientPlayer.getLevel());
+		StringBuilder edata = new StringBuilder();
+		for(int i = 0; i < entities.length; i++) {
+			Entity curEntity = entities[i];
+			if(!clientPlayer.shouldTrack(curEntity.x>>4, curEntity.y>>4, curEntity.getLevel()))
+				continue; // this is outside of the player's entity tracking range; doesn't need to know about it yet.
+			String curEntityData = "";
+			if(curEntity != clientPlayer) {
+				curEntityData = Save.writeEntity(curEntity, false) + ",";
+				if(Game.debug && curEntity instanceof Player) System.out.println("SERVER: sending player in ENTITIES packet: " + curEntity);
+			}
+			// there is enough space.
+			if(curEntityData.length() > 1) // 1 b/c of the "," added; this prevents entities that aren't saved from causing ",," to appear.
+				edata.append(curEntityData);
+		}
+		
+		String edataToSend = edata.substring(0, Math.max(0, edata.length()-1)); // cut off trailing comma
+		
+		serverThread.sendData(InputType.ENTITIES, edataToSend);
+		serverThread.sendCachedPackets();
 	}
 	
 	private void broadcastData(InputType inType, String data) {
