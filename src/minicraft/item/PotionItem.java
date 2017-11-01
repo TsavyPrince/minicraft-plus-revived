@@ -3,9 +3,9 @@ package minicraft.item;
 import java.util.ArrayList;
 
 import minicraft.core.Game;
-import minicraft.entity.Direction;
-import minicraft.entity.mob.Player;
-import minicraft.entity.mob.RemotePlayer;
+import minicraft.level.entity.Direction;
+import minicraft.level.entity.mob.Player;
+import minicraft.level.entity.mob.RemotePlayer;
 import minicraft.gfx.Color;
 import minicraft.gfx.Sprite;
 import minicraft.level.Level;

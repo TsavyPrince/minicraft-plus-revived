@@ -16,16 +16,16 @@ import minicraft.core.Renderer;
 import minicraft.core.io.Settings;
 import minicraft.core.Updater;
 import minicraft.core.World;
-import minicraft.entity.Arrow;
-import minicraft.entity.Direction;
-import minicraft.entity.Entity;
-import minicraft.entity.ItemEntity;
-import minicraft.entity.Spark;
-import minicraft.entity.furniture.*;
-import minicraft.entity.mob.*;
-import minicraft.entity.particle.FireParticle;
-import minicraft.entity.particle.SmashParticle;
-import minicraft.entity.particle.TextParticle;
+import minicraft.level.entity.Arrow;
+import minicraft.level.entity.Direction;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.ItemEntity;
+import minicraft.level.entity.Spark;
+import minicraft.level.entity.furniture.*;
+import minicraft.level.entity.mob.*;
+import minicraft.level.entity.particle.FireParticle;
+import minicraft.level.entity.particle.SmashParticle;
+import minicraft.level.entity.particle.TextParticle;
 import minicraft.item.*;
 import minicraft.level.Level;
 import minicraft.level.tile.Tiles;
@@ -459,7 +459,7 @@ public class Load {
 		Level level = World.levels[Game.currentLevel];
 		if(!player.isRemoved()) player.remove(); // removes the user player from the level, in case they would be added twice.
 		if(level != null)
-			level.add(player);
+			level.addEntity(player);
 		else if(Game.debug) System.out.println(Network.onlinePrefix()+"game level to add player " + player + " to is null.");
 		//Tile spawnTile = level.getTile(player.spawnx >> 4, player.spawny >> 4);
 		//if(spawnTile.id != Tiles.get("grass").id && spawnTile.mayPass(level, player.spawnx >> 4, player.spawny >> 4, player))
@@ -520,6 +520,14 @@ public class Load {
 			name = name.replace("I.Armor", "Iron Armor").replace("S.Armor", "Snake Armor").replace("L.Armor", "Leather Armor").replace("G.Armor", "Gold Armor").replace("BrickWall", "Wall");
 		}
 		
+		if(worldVer.compareTo(new Version("2.0.4-dev2")) < 0) {
+			name = name.replace("Plank Wall", "Wood Wall");
+			if(name.equalsIgnoreCase("Plank"))
+				name = "Wood Planks";
+			if(name.endsWith("Brick"))
+				name = name.replace("Brick", "Bricks");
+		}
+		
 		return name;
 	}
 	
@@ -537,9 +545,8 @@ public class Load {
 				continue;
 			}
 			
-			if(worldVer.compareTo(new Version("1.9.4")) < 0) {
+			if(worldVer.compareTo(currentVer) < 0)
 				item = subOldName(item, worldVer);
-			}
 			
 			if (item.contains("Power Glove")) continue; // just pretend it doesn't exist. Because it doesn't. :P
 			
@@ -605,51 +612,21 @@ public class Load {
 		int y = Integer.parseInt(info.get(1));
 		
 		int eid = -1;
-		if(!isLocalSave)
-			eid = Integer.parseInt(info.remove(2));
+		if(!isLocalSave) eid = Integer.parseInt(info.remove(2));
 		if(!isLocalSave && Renderer.readyToRenderGameplay) {
-			//eid = Integer.parseInt(info.remove(2));
-			
 			/// If I find an entity that is loaded locally, but on another level in the entity data provided, then I ditch the current entity and make a new one from the info provided.
-			Entity existing = Network.getEntity(eid);
+			//Entity existing = Network.getEntity(eid);
 			int entityLevel = Integer.parseInt(info.get(info.size()-1));
 			
-			if(existing != null) {
-				// the entity loaded is now out of date; remove it.
-				/*if(*//*existing instanceof Player && *//*Game.debug)
-					System.out.println(Network.onlinePrefix()+"received entity data equals a loaded entity: " + existing + "; removing from level " + existing.getLevel());
-				*/
-				//existing.remove();
-				//existing.remove();
-				//Game.levels[Game.currentLevel].add(existing);
-				//return null;
-			}
-			
-			/*if(existing == null && Game.isValidClient() && Game.player.eid == eid) {
-				existing = Game.player;
-				//int playerLevel = Integer.parseInt(info.get(info.size()-1));
-				//if(World.levels[playerLevel] != null)
-				//World.levels[playerLevel].add(existing, x, y);
-			}
-			if(existing != null) {
-				System.out.println(Network.onlinePrefix()+"already loaded entity with eid " + eid + "; returning that one");
-				return existing;
-			}*/
-			
-			if(Game.isValidClient() && Game.player instanceof RemotePlayer && ((RemotePlayer)Game.player).eid != eid && 
+			if(Game.isValidClient() && Game.player instanceof RemotePlayer && Game.player.getEid() != eid && 
 				!((RemotePlayer)Game.player).shouldTrack(x >> 4, y >> 4, World.levels[entityLevel])
 				) {
 				// the entity is too far away to bother adding to the level.
 				if(Game.debug) System.out.println("CLIENT: entity is too far away to bother loading: " + eid);
 				Entity dummy = new Cow();
-				dummy.eid = eid;
+				dummy.setEid(eid);
 				return dummy; /// we need a dummy b/c it's the only way to pass along to entity id.
 			}
-			
-			/*if(Game.isValidClient() && existing != null && existing.eid == Game.player.eid) {
-				System.out.println("CLIENT WARNING: asked to reload main player from server; ignoring.");
-				return Game.player; // don't load the main player
-			}*/
 		}
 		
 		Entity newEntity = null;
@@ -666,7 +643,7 @@ public class Load {
 				int port = Integer.parseInt(info.get(4));
 				newEntity = new RemotePlayer(null, ip, port);
 				((RemotePlayer)newEntity).setUsername(username);
-				//rp.eid = eid;
+				//rp.getEid() = eid;
 				if(Game.debug) System.out.println("Prob CLIENT: Loaded remote player");
 				//return rp;
 			} catch(java.net.UnknownHostException ex) {
@@ -691,21 +668,7 @@ public class Load {
 			if(!Crafter.names.contains(entityName)) {
 				try {
 					c = Class.forName("minicraft.entity.mob."+entityName);
-				} catch(ClassNotFoundException ex1) {
-					/*try {
-						c = Class.forName("minicraft.entity.furniture."+entityName);
-					} catch (ClassNotFoundException ex2) {
-						try {
-							c = Class.forName("minicraft.entity."+entityName);
-						} catch (ClassNotFoundException ex3) {
-							try {
-								c = Class.forName("minicraft.entity.particle."+entityName);
-							} catch (ClassNotFoundException ex4) {
-								ex4.printStackTrace();
-							}
-						}
-					}*/
-				}
+				} catch(ClassNotFoundException ignored) {}
 			}
 			if(c != null && EnemyMob.class.isAssignableFrom(c))
 				mobLvl = Integer.parseInt(info.get(info.size()-2));
@@ -734,7 +697,7 @@ public class Load {
 			int endIdx = chestInfo.size()-(isDeathChest||isDungeonChest?1:0);
 			for(int idx = 0; idx < endIdx; idx++) {
 				String itemData = chestInfo.get(idx);
-				if(worldVer.compareTo(new Version("1.9.4-dev4")) < 0)
+				if(worldVer.compareTo(new Version(Game.VERSION)) < 0)
 					itemData = subOldName(itemData, worldVer);
 				
 				if(itemData.contains("Power Glove")) continue; // ignore it.
@@ -808,13 +771,13 @@ public class Load {
 			}
 		}
 		
-		newEntity.eid = eid; // this will be -1 unless set earlier, so a new one will be generated when adding it to the level.
+		newEntity.setEid(eid); // this will be -1 unless set earlier, so a new one will be generated when adding it to the level.
 		if(newEntity instanceof ItemEntity && eid == -1)
 			System.out.println("Warning: item entity was loaded with no eid");
 		
 		int curLevel = Integer.parseInt(info.get(info.size()-1));
 		if(World.levels[curLevel] != null) {
-			World.levels[curLevel].add(newEntity, x, y);
+			World.levels[curLevel].addEntity(newEntity, x, y);
 			if(Game.debug && newEntity instanceof RemotePlayer)
 				World.levels[curLevel].printEntityStatus("Loaded ", newEntity, "mob.RemotePlayer");
 		} else if(newEntity instanceof RemotePlayer && Game.isValidClient())

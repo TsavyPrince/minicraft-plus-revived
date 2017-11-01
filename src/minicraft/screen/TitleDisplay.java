@@ -7,7 +7,7 @@ import minicraft.core.io.InputHandler;
 import minicraft.core.Renderer;
 import minicraft.core.World;
 import minicraft.core.io.Localization;
-import minicraft.entity.mob.RemotePlayer;
+import minicraft.level.entity.mob.RemotePlayer;
 import minicraft.gfx.Color;
 import minicraft.gfx.Font;
 import minicraft.gfx.Point;

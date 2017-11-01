@@ -2,11 +2,11 @@ package minicraft.level.tile;
 
 import minicraft.core.Game;
 import minicraft.core.io.Settings;
-import minicraft.entity.Direction;
-import minicraft.entity.Entity;
-import minicraft.entity.mob.Mob;
-import minicraft.entity.particle.SmashParticle;
-import minicraft.entity.particle.TextParticle;
+import minicraft.level.entity.Direction;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.mob.Mob;
+import minicraft.level.entity.particle.SmashParticle;
+import minicraft.level.entity.particle.TextParticle;
 import minicraft.gfx.Color;
 import minicraft.gfx.Sprite;
 import minicraft.item.Items;
@@ -34,8 +34,8 @@ public class CactusTile extends Tile {
 		int damage = level.getData(x, y) + dmg;
 		int cHealth = 10;
 		if (Game.isMode("creative")) dmg = damage = cHealth;
-		level.add(new SmashParticle(x * 16, y * 16));
-		level.add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.RED));
+		level.addEntity(new SmashParticle(x * 16, y * 16));
+		level.addEntity(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.RED));
 		
 		if (damage >= cHealth) {
 			//int count = random.nextInt(2) + 2;

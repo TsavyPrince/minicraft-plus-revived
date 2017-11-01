@@ -2,7 +2,7 @@ package minicraft.screen;
 
 import java.util.List;
 
-import minicraft.entity.mob.Player;
+import minicraft.level.entity.mob.Player;
 import minicraft.item.Recipe;
 import minicraft.screen.entry.RecipeEntry;
 

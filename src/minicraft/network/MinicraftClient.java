@@ -17,15 +17,15 @@ import minicraft.core.Renderer;
 import minicraft.core.io.Settings;
 import minicraft.core.Updater;
 import minicraft.core.World;
-import minicraft.entity.Direction;
-import minicraft.entity.Entity;
-import minicraft.entity.ItemEntity;
-import minicraft.entity.furniture.Bed;
-import minicraft.entity.furniture.Chest;
-import minicraft.entity.furniture.DeathChest;
-import minicraft.entity.furniture.Furniture;
-import minicraft.entity.mob.Player;
-import minicraft.entity.mob.RemotePlayer;
+import minicraft.level.entity.Direction;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.ItemEntity;
+import minicraft.level.entity.furniture.Bed;
+import minicraft.level.entity.furniture.Chest;
+import minicraft.level.entity.furniture.DeathChest;
+import minicraft.level.entity.furniture.Furniture;
+import minicraft.level.entity.mob.Player;
+import minicraft.level.entity.mob.RemotePlayer;
 import minicraft.item.Item;
 import minicraft.item.Items;
 import minicraft.item.PotionItem;
@@ -108,13 +108,13 @@ public class MinicraftClient extends MinicraftConnection {
 			
 			case PLAY:
 				if (Game.debug) System.out.println("CLIENT: Begin game!");
-				//Game.player.remove();
-				World.levels[Game.currentLevel].add(Game.player);
+				//Game.player.removeEntity();
+				World.levels[Game.currentLevel].addEntity(Game.player);
 				Renderer.readyToRenderGameplay = true;
 				Game.setMenu(null);
 				Timer t = new Timer(500, e -> {
-					Network.getEntity(Game.player.eid).remove();
-					World.levels[Game.currentLevel].add(Game.player);
+					Network.getEntity(Game.player.getEid()).remove();
+					World.levels[Game.currentLevel].addEntity(Game.player);
 				});
 				t.setRepeats(false);
 				t.start();
@@ -205,7 +205,7 @@ public class MinicraftClient extends MinicraftConnection {
 				int[] info = new int[infostrings.length];
 				for(int i = 0; i < info.length; i++)
 					info[i] = Integer.parseInt(infostrings[i]);
-				Game.player.eid = info[0];
+				Game.player.getEid() = info[0];
 				World.lvlw = info[1];
 				World.lvlh = info[2];
 				World.currentLevel = info[3];
@@ -309,16 +309,16 @@ public class MinicraftClient extends MinicraftConnection {
 				
 				Entity addedEntity = Load.loadEntity(alldata, false);
 				if(addedEntity != null) {
-					if(addedEntity.eid == Game.player.eid/* && Game.player.getLevel() == null*/) {
+					if(addedEntity.getEid() == Game.player.getEid()/* && Game.player.getLevel() == null*/) {
 						if (Game.debug) System.out.println("CLIENT: added main game player back to level based on add packet");
-						World.levels[Game.currentLevel].add(Game.player);
+						World.levels[Game.currentLevel].addEntity(Game.player);
 						Bed.inBed = false;
 					}
 					
-					if(entityRequests.containsKey(addedEntity.eid))
-						entityRequests.remove(addedEntity.eid);
+					if(entityRequests.containsKey(addedEntity.getEid()))
+						entityRequests.remove(addedEntity.getEid());
 					//else if(Game.debug && addedEntity instanceof RemotePlayer)
-						//System.out.println("CLIENT: added remote player from packet: " + addedEntity + "; game player has eid " + Game.player.eid + "; this player has eid " + addedEntity.eid + "; are equal: " + (Game.player.eid == addedEntity.eid));
+						//System.out.println("CLIENT: added remote player from packet: " + addedEntity + "; game player has eid " + Game.player.getEid() + "; this player has eid " + addedEntity.getEid() + "; are equal: " + (Game.player.getEid() == addedEntity.getEid()));
 				}
 				
 				return true;
@@ -493,10 +493,10 @@ public class MinicraftClient extends MinicraftConnection {
 	public void sendPlayerDeath(Player player, DeathChest dc) {
 		if(player != Game.player && Game.player != null) return; // this is client is not responsible for that player.
 		Level level = World.levels[Game.currentLevel];
-		level.add(dc);
-		dc.eid = -1;
+		level.addEntity(dc);
+		dc.getEid() = -1;
 		String chestData = Save.writeEntity(dc, false);
-		level.remove(dc);
+		level.removeEntity(dc);
 		sendData(InputType.DIE, chestData);
 	}
 	
@@ -510,22 +510,22 @@ public class MinicraftClient extends MinicraftConnection {
 	
 	public void addToChest(Chest chest, Item item) {
 		if(chest == null || item == null) return;
-		sendData(InputType.CHESTIN, chest.eid+";"+item.getData());
+		sendData(InputType.CHESTIN, chest.getEid()+";"+item.getData());
 	}
 	
 	public void removeFromChest(Chest chest, int index, boolean wholeStack) {
 		if(chest == null) return;
-		sendData(InputType.CHESTOUT, chest.eid+";"+index+";"+wholeStack);
+		sendData(InputType.CHESTOUT, chest.getEid()+";"+index+";"+wholeStack);
 	}
 	
-	public void pushFurniture(Furniture f, Direction pushDir) { sendData(InputType.PUSH, String.valueOf(f.eid)); }
+	public void pushFurniture(Furniture f, Direction pushDir) { sendData(InputType.PUSH, String.valueOf(f.getEid())); }
 	
 	public void pickupItem(ItemEntity ie) {
 		if(ie == null) return;
-		sendData(InputType.PICKUP, String.valueOf(ie.eid));
+		sendData(InputType.PICKUP, String.valueOf(ie.getEid()));
 	}
 	
-	public void sendBedRequest(Player player, Bed bed) { sendData(InputType.BED, String.valueOf(bed.eid)); }
+	public void sendBedRequest(Player player, Bed bed) { sendData(InputType.BED, String.valueOf(bed.getEid())); }
 	
 	public void requestLevel(int lvlidx) {
 		Game.currentLevel = lvlidx; // just in case.

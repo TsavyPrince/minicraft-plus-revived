@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import minicraft.entity.furniture.Bed;
-import minicraft.entity.mob.Player;
+import minicraft.level.entity.furniture.Bed;
+import minicraft.level.entity.mob.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Font;
 import minicraft.gfx.FontStyle;

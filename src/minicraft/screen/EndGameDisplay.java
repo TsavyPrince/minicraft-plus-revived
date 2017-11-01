@@ -8,7 +8,7 @@ import minicraft.core.Game;
 import minicraft.core.io.InputHandler;
 import minicraft.core.io.Settings;
 import minicraft.core.Updater;
-import minicraft.entity.mob.Player;
+import minicraft.level.entity.mob.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Screen;
 import minicraft.item.Items;

@@ -2,10 +2,10 @@ package minicraft.core;
 
 import minicraft.core.io.Localization;
 import minicraft.core.io.Settings;
-import minicraft.entity.Entity;
-import minicraft.entity.furniture.Bed;
-import minicraft.entity.mob.Mob;
-import minicraft.entity.mob.Player;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.furniture.Bed;
+import minicraft.level.entity.mob.Mob;
+import minicraft.level.entity.mob.Player;
 import minicraft.item.Items;
 import minicraft.level.Level;
 import minicraft.level.tile.Tile;
@@ -79,7 +79,7 @@ public class Updater extends Game {
 		Level level = levels[currentLevel];
 		if (Bed.inBed && !isValidClient()) {
 			// IN BED
-			//Bed.player.remove();
+			//Bed.player.removeEntity();
 			if(gamespeed != 20) {
 				gamespeed = 20;
 				if(isValidServer()) {
@@ -106,7 +106,7 @@ public class Updater extends Game {
 						int yd = playerInBed.y - e.y;
 						if (xd * xd + yd * yd < 48 && e instanceof Mob && !(e instanceof Player)) {
 							// this comes down to a radius of about half a tile... huh...
-							level.remove(e);
+							level.removeEntity(e);
 						}
 					}
 				}
@@ -212,7 +212,7 @@ public class Updater extends Game {
 				
 				if(Game.player.getLevel() != null && levels[currentLevel] != null && Renderer.readyToRenderGameplay && Game.player.getLevel() != Game.levels[Game.currentLevel] && Game.isValidClient()) {
 					Game.player.remove();
-					levels[currentLevel].add(player);
+					levels[currentLevel].addEntity(player);
 				}
 				
 				//for debugging only

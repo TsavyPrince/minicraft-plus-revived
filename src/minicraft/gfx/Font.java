@@ -121,7 +121,7 @@ public class Font {
 					curPos++; // if we ended on a space, advance past the space.
 			}
 			//System.out.println("adding line " + line);
-			lines.add(line.toString()); // add the finished line to the list
+			lines.addEntity(line.toString()); // add the finished line to the list
 			curY += textHeight() + lineSpacing; // move the y position down one line.
 		}
 		
@@ -130,7 +130,7 @@ public class Font {
 			leftover = para.substring(curPos); // get any text from the string that didn't fit in the given rectangle.
 		
 		if(h > 0 || leftover.length() > 0)
-			lines.add(leftover);
+			lines.addEntity(leftover);
 		
 		return lines.toArray(new String[lines.size()]);
 	}*/

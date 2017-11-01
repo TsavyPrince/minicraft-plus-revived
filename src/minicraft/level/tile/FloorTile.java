@@ -1,9 +1,9 @@
 package minicraft.level.tile;
 
 import minicraft.core.io.Sound;
-import minicraft.entity.Direction;
-import minicraft.entity.Entity;
-import minicraft.entity.mob.Player;
+import minicraft.level.entity.Direction;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.mob.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Sprite;
 import minicraft.item.Item;
@@ -18,7 +18,10 @@ public class FloorTile extends Tile {
 	protected Material type;
 	
 	protected FloorTile(Material type) {
-		super((type == Material.Wood ? "Wood Planks" : type == Material.Obsidian ? "Obsidian" : type.name()+" Bricks"), (Sprite)null);
+		super("Floor", (Sprite)null);//+type/*(type == Material.Wood ? "Wood Planks" : type == Material.Obsidian ? "Obsidian" : type.name()+" Bricks")*/, (Sprite)null);
+		
+		// TODO in the future, the different materials could have entirely different sprites, so they will be treated as different, and will all be drawn separately. 
+		
 		this.type = type;
 		maySpawn = true;
 		switch(type) {

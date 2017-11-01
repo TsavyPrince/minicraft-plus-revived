@@ -1,12 +1,12 @@
 package minicraft.level.tile;
 
 import minicraft.core.Game;
-import minicraft.entity.Direction;
-import minicraft.entity.Entity;
-import minicraft.entity.mob.Mob;
-import minicraft.entity.mob.Player;
-import minicraft.entity.particle.SmashParticle;
-import minicraft.entity.particle.TextParticle;
+import minicraft.level.entity.Direction;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.mob.Mob;
+import minicraft.level.entity.mob.Player;
+import minicraft.level.entity.particle.SmashParticle;
+import minicraft.level.entity.particle.TextParticle;
 import minicraft.gfx.Color;
 import minicraft.gfx.Screen;
 import minicraft.gfx.Sprite;
@@ -86,8 +86,8 @@ public class OreTile extends Tile {
 		int oreH = random.nextInt(10) + 3;
 		if (Game.isMode("creative")) dmg = damage = oreH;
 		
-		level.add(new SmashParticle(x * 16, y * 16));
-		level.add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.RED));
+		level.addEntity(new SmashParticle(x * 16, y * 16));
+		level.addEntity(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.RED));
 		if (dmg > 0) {
 			int count = random.nextInt(2) + 0;
 			if (damage >= oreH) {

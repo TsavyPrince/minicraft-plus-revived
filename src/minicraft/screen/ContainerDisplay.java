@@ -2,8 +2,8 @@ package minicraft.screen;
 
 import minicraft.core.Game;
 import minicraft.core.io.InputHandler;
-import minicraft.entity.furniture.Chest;
-import minicraft.entity.mob.Player;
+import minicraft.level.entity.furniture.Chest;
+import minicraft.level.entity.mob.Player;
 import minicraft.gfx.Screen;
 import minicraft.item.Inventory;
 

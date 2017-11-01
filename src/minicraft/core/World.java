@@ -1,11 +1,11 @@
 package minicraft.core;
 
 import minicraft.core.io.Settings;
-import minicraft.entity.furniture.Bed;
-import minicraft.entity.furniture.Furniture;
-import minicraft.entity.furniture.Lantern;
-import minicraft.entity.mob.Player;
-import minicraft.entity.mob.RemotePlayer;
+import minicraft.level.entity.furniture.Bed;
+import minicraft.level.entity.furniture.Furniture;
+import minicraft.level.entity.furniture.Lantern;
+import minicraft.level.entity.mob.Player;
+import minicraft.level.entity.mob.RemotePlayer;
 import minicraft.item.Items;
 import minicraft.level.Level;
 import minicraft.saveload.Load;
@@ -32,7 +32,7 @@ public class World extends Game {
 		maxLevelDepth = max;
 	}
 	
-	static int worldSize = 128; // The size of the world
+	private static int worldSize = 128; // The size of the world
 	public static int lvlw = worldSize; // The width of the world
 	public static int lvlh = worldSize; // The height of the world
 	
@@ -41,7 +41,7 @@ public class World extends Game {
 	
 	/// SCORE MODE
 	
-	/** This is for a contained way to find the index in the levels array of a level, based on it's depth. This is also helpful because add a new level in the future could change this. */
+	/** This is for a contained way to find the index in the levels array of a level, based on it's depth. This is also helpful because adding a new level in the future could change this. */
 	public static int lvlIdx(int depth) {
 		if(depth > maxLevelDepth) return lvlIdx(minLevelDepth);
 		if(depth < minLevelDepth) return lvlIdx(maxLevelDepth);
@@ -81,7 +81,7 @@ public class World extends Game {
 				Level level = levels[currentLevel];
 				player.respawn(level);
 				//if (debug) System.out.println("respawned player in current world");
-				level.add(player); // adds the player to the current level (always surface here)
+				level.addEntity(player); // adds the player to the current level (always surface here)
 			} else {
 				client.requestRespawn();
 			}
@@ -138,12 +138,12 @@ public class World extends Game {
 				Furniture f = new Lantern(Lantern.Type.IRON);//Items.get("Iron Lantern").furniture;
 				f.x = 984;
 				f.y = 984;
-				levels[lvlIdx(-4)].add(f);
+				levels[lvlIdx(-4)].addEntity(f);
 				
 				Level level = levels[currentLevel]; // sets level to the current level (3; surface)
 				Updater.pastDay1 = false;
 				player.findStartPos(level, WorldGenDisplay.getSeed()); // finds the start level for the player
-				level.add(player);
+				level.addEntity(player);
 			}
 			
 			if(Settings.get("Theme").equals("Hell")) {
@@ -179,7 +179,7 @@ public class World extends Game {
 		if(isConnectedClient())
 			levels[currentLevel].clearEntities(); // clear all the entities from the last level, so that no artifacts remain. They're loaded dynamically, anyway.
 		else
-			levels[currentLevel].remove(player); // removes the player from the current level.
+			levels[currentLevel].removeEntity(player); // removes the player from the current level.
 		
 		int nextLevel = currentLevel + dir;
 		if (nextLevel <= -1) nextLevel = levels.length-1; // fix accidental level underflow
@@ -194,7 +194,7 @@ public class World extends Game {
 			Renderer.readyToRenderGameplay = false;
 			client.requestLevel(currentLevel);
 		} else
-			levels[currentLevel].add(player); // adds the player to the level.
+			levels[currentLevel].addEntity(player); // adds the player to the level.
 	}
 	
 	

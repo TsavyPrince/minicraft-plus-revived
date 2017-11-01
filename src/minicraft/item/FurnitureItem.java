@@ -3,9 +3,9 @@ package minicraft.item;
 import java.util.ArrayList;
 
 import minicraft.core.Game;
-import minicraft.entity.Direction;
-import minicraft.entity.furniture.*;
-import minicraft.entity.mob.*;
+import minicraft.level.entity.Direction;
+import minicraft.level.entity.furniture.*;
+import minicraft.level.entity.mob.*;
 import minicraft.gfx.Sprite;
 import minicraft.level.Level;
 import minicraft.level.tile.Tile;
@@ -69,7 +69,7 @@ public class FurnitureItem extends Item {
 			// Placed furniture's X and Y positions
 			furniture.x = xt * 16 + 8;
 			furniture.y = yt * 16 + 8;
-			level.add(furniture); // adds the furniture to the world
+			level.addEntity(furniture); // adds the furniture to the world
 			if(Game.isMode("creative"))
 				furniture = furniture.clone();
 			else

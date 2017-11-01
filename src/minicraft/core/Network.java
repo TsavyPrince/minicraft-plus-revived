@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import minicraft.entity.Entity;
+import minicraft.level.entity.Entity;
 import minicraft.level.Level;
 import minicraft.network.MinicraftServer;
 import minicraft.saveload.Load;
@@ -28,7 +28,7 @@ public class Network extends Game {
 		for(Level level: levels) {
 			if(level == null) continue;
 			for(Entity e: level.getEntityArray())
-				if(e.eid == eid)
+				if(e.getEid() == eid)
 					return e;
 		}
 		
@@ -56,7 +56,7 @@ public class Network extends Game {
 		for(Level level: levels) {
 			if(level == null) continue;
 			for(Entity e: level.getEntityArray()) {
-				if(e.eid == eid)
+				if(e.getEid() == eid)
 					return false;
 			}
 		}

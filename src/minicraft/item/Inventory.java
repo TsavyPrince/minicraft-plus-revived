@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import minicraft.entity.furniture.Furniture;
+import minicraft.level.entity.furniture.Furniture;
 
 import org.jetbrains.annotations.Nullable;
 

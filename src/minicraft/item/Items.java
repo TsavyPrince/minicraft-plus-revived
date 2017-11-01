@@ -31,7 +31,7 @@ public class Items {
 	}
 	
 	static {
-		//add(new UnknownItem());
+		//addEntity(new UnknownItem());
 		add(new PowerGloveItem());
 		addAll(FurnitureItem.getAllInstances());
 		addAll(TorchItem.getAllInstances());

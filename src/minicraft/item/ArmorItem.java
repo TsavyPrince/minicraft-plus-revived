@@ -2,8 +2,8 @@ package minicraft.item;
 
 import java.util.ArrayList;
 
-import minicraft.entity.Direction;
-import minicraft.entity.mob.Player;
+import minicraft.level.entity.Direction;
+import minicraft.level.entity.mob.Player;
 import minicraft.gfx.Color;
 import minicraft.gfx.Sprite;
 import minicraft.level.Level;

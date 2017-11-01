@@ -16,14 +16,14 @@ import minicraft.core.Network;
 import minicraft.core.io.Settings;
 import minicraft.core.Updater;
 import minicraft.core.World;
-import minicraft.entity.Direction;
-import minicraft.entity.Entity;
-import minicraft.entity.ItemEntity;
-import minicraft.entity.furniture.Bed;
-import minicraft.entity.furniture.Chest;
-import minicraft.entity.furniture.Furniture;
-import minicraft.entity.mob.Player;
-import minicraft.entity.mob.RemotePlayer;
+import minicraft.level.entity.Direction;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.ItemEntity;
+import minicraft.level.entity.furniture.Bed;
+import minicraft.level.entity.furniture.Chest;
+import minicraft.level.entity.furniture.Furniture;
+import minicraft.level.entity.mob.Player;
+import minicraft.level.entity.mob.RemotePlayer;
 import minicraft.item.Item;
 import minicraft.item.Items;
 import minicraft.item.PotionItem;
@@ -300,10 +300,10 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 		if (Game.debug && e instanceof Player) System.out.println("...now sending player removal to " + players.size() + " players.");
 		
 		for(MinicraftServerThread thread: getAssociatedThreads(players))
-			thread.sendEntityRemoval(e.eid);
+			thread.sendEntityRemoval(e.getEid());
 	}
 	//public void sendEntityRemoval(Entity e) { sendEntityRemoval(e, getIfPlayer(e)); }
-	//public void sendEntityRemoval(Entity e, RemotePlayer sender) { sendEntityRemoval(e.eid, sender, false); }
+	//public void sendEntityRemoval(Entity e, RemotePlayer sender) { sendEntityRemoval(e.getEid(), sender, false); }
 	
 	public void saveWorld() {
 		broadcastData(InputType.SAVE, ""); // tell all the other clients to send their data over to be saved.
@@ -468,12 +468,12 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 				
 				int playerlvl = World.lvlIdx(clientPlayer.getLevel() != null ? clientPlayer.getLevel().depth : 0);
 				if(!Arrays.asList(World.levels[playerlvl].getEntityArray()).contains(clientPlayer) && clientPlayer != hostPlayer) // this will be true if their file was already found, since they are added in Load.loadPlayer().
-					World.levels[playerlvl].add(clientPlayer); // add to level (**id is generated here**) and also, maybe, broadcasted to other players?
+					World.levels[playerlvl].addEntity(clientPlayer); // add to level (**id is generated here**) and also, maybe, broadcasted to other players?
 				
 				updateGameVars(serverThread);
 				//making INIT_W packet
 				int[] toSend = {
-					clientPlayer.eid,
+					clientPlayer.getEid(),
 					World.levels[playerlvl].w,
 					World.levels[playerlvl].h,
 					playerlvl, // these bottom three are actually unnecessary because of the previous PLAYER packet.
@@ -500,7 +500,7 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 				
 				// move the associated player to the level they requested -- they shouldn't be requesting it if they aren't going to transfer to it.
 				clientPlayer.remove();
-				World.levels[levelidx].add(clientPlayer);
+				World.levels[levelidx].addEntity(clientPlayer);
 				// if it's the same level, it will cancel out.
 				
 				byte[] tiledata = new byte[World.levels[levelidx].tiles.length*2];
@@ -684,7 +684,7 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 				entity.remove();
 				//if(Game.debug) System.out.println("SERVER: item entity pickup approved: " + entity);
 				serverThread.sendData(inType, alldata);
-				broadcastData(InputType.REMOVE, String.valueOf(entity.eid), serverThread);
+				broadcastData(InputType.REMOVE, String.valueOf(entity.getEid()), serverThread);
 				return true;
 			
 			case INTERACT:
@@ -743,7 +743,7 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 				int plvlidx = Integer.parseInt(data[3]);
 				if(plvlidx >= 0 && plvlidx < World.levels.length && World.levels[plvlidx] != clientPlayer.getLevel()) {
 					clientPlayer.remove();
-					World.levels[plvlidx].add(clientPlayer);
+					World.levels[plvlidx].addEntity(clientPlayer);
 				}
 				
 				int oldx = clientPlayer.x>>4, oldy = clientPlayer.y>>4;
@@ -815,7 +815,7 @@ public class MinicraftServer extends Thread implements MinicraftProtocol {
 	protected void onThreadDisconnect(MinicraftServerThread thread) {
 		threadList.remove(thread);
 		//broadcastEntityRemoval(thread.getClient());
-		//broadcastData(InputType.REMOVE, String.valueOf(thread.getClient().eid), thread);
+		//broadcastData(InputType.REMOVE, String.valueOf(thread.getClient().getEid()), thread);
 		if(thread.getClient() == hostPlayer)
 			hostPlayer = null;
 	}

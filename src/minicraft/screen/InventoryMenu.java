@@ -2,8 +2,8 @@ package minicraft.screen;
 
 import minicraft.core.Game;
 import minicraft.core.io.InputHandler;
-import minicraft.entity.Entity;
-import minicraft.entity.mob.Player;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.mob.Player;
 import minicraft.item.Inventory;
 import minicraft.item.Item;
 import minicraft.item.StackableItem;

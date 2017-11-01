@@ -13,9 +13,9 @@ import java.util.TimerTask;
 
 import minicraft.core.Game;
 import minicraft.core.World;
-import minicraft.entity.Direction;
-import minicraft.entity.Entity;
-import minicraft.entity.mob.RemotePlayer;
+import minicraft.level.entity.Direction;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.mob.RemotePlayer;
 import minicraft.item.Item;
 import minicraft.item.PowerGloveItem;
 import minicraft.level.Level;
@@ -162,7 +162,7 @@ public class MinicraftServerThread extends MinicraftConnection {
 	public void sendEntityUpdate(Entity e, String updateString) {
 		if(updateString.length() > 0) {
 			//if (Game.debug && e instanceof Player) System.out.println("SERVER sending player update to " + client + ": " + e + "; data = " + updateString);
-			sendData(InputType.ENTITY, e.eid+";"+updateString);
+			sendData(InputType.ENTITY, e.getEid()+";"+updateString);
 		}// else
 		//	if(Game.debug) System.out.println("SERVER: skipping entity update b/c no new fields: " + e);
 	}
@@ -176,7 +176,7 @@ public class MinicraftServerThread extends MinicraftConnection {
 	}
 	
 	public void sendEntityRemoval(int eid) {
-		//trackedEntities.remove(eid);
+		//trackedEntities.removeEntity(eid);
 		sendData(InputType.REMOVE, String.valueOf(eid));
 	}
 	
@@ -210,7 +210,7 @@ public class MinicraftServerThread extends MinicraftConnection {
 		client.remove(); // hopefully removes it from any level it might still be on
 		client = new RemotePlayer(false, client);
 		client.respawn(World.levels[World.lvlIdx(0)]); // get the spawn loc. of the client
-		Game.levels[0].add(client);
+		Game.levels[0].addEntity(client);
 		System.out.println("sending player respawn data...");
 		sendData(InputType.PLAYER, client.getPlayerData()); // send spawn loc.
 	}

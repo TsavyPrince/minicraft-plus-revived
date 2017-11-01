@@ -3,6 +3,7 @@ package minicraft.level.tile;
 import java.util.ArrayList;
 
 import minicraft.core.Game;
+import minicraft.item.TileItem;
 
 public final class Tiles {
 	/// idea: to save tile names while saving space, I could encode the names in base 64 in the save file...^M
@@ -169,7 +170,8 @@ public final class Tiles {
 		overflowCheck++;
 		
 		if(overflowCheck > 50) {
-			System.out.println("STACKOVERFLOW prevented in Tiles.get(), on: " + name);
+			System.err.println("STACKOVERFLOW prevented in Tiles.get(), on: " + name);
+			Thread.dumpStack();
 			System.exit(1);
 		}
 		
@@ -237,5 +239,15 @@ public final class Tiles {
 		descriptName = parts[0];
 		data = Integer.parseInt(parts[1]);
 		return get(descriptName).getName(data);
+	}
+	
+	public static ArrayList<TileItem> getAllTileItems() {
+		ArrayList<TileItem> items = new ArrayList<>();
+		for(Tile t: tiles) {
+			if(t instanceof Itemizable)
+				items.add(((Itemizable) t).getItem());
+		}
+		
+		return items;
 	}
 }

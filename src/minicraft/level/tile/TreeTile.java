@@ -1,12 +1,12 @@
 package minicraft.level.tile;
 
 import minicraft.core.Game;
-import minicraft.entity.Direction;
-import minicraft.entity.Entity;
-import minicraft.entity.mob.Mob;
-import minicraft.entity.mob.Player;
-import minicraft.entity.particle.SmashParticle;
-import minicraft.entity.particle.TextParticle;
+import minicraft.level.entity.Direction;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.mob.Mob;
+import minicraft.level.entity.mob.Player;
+import minicraft.level.entity.particle.SmashParticle;
+import minicraft.level.entity.particle.TextParticle;
 import minicraft.gfx.Color;
 import minicraft.gfx.ConnectorSprite;
 import minicraft.gfx.Screen;
@@ -70,7 +70,7 @@ public class TreeTile extends Tile {
 
 	public boolean mayPass(Level level, int x, int y, Entity e) {
 		/// make arrow fly through trees!
-		if(Game.debug && e instanceof minicraft.entity.Arrow && ((minicraft.entity.Arrow)e).owner instanceof Player) {
+		if(Game.debug && e instanceof minicraft.level.entity.Arrow && ((minicraft.level.entity.Arrow)e).owner instanceof Player) {
 			hurt(level, x, y, 25);
 			return true;
 		}
@@ -104,8 +104,8 @@ public class TreeTile extends Tile {
 		int treeHealth = 20;
 		if (Game.isMode("creative")) dmg = damage = treeHealth;
 		
-		level.add(new SmashParticle(x*16, y*16));
-		level.add(new TextParticle("" + dmg, x*16+8, y*16+8, Color.RED));
+		level.addEntity(new SmashParticle(x*16, y*16));
+		level.addEntity(new TextParticle("" + dmg, x*16+8, y*16+8, Color.RED));
 		if (damage >= treeHealth) {
 			level.dropItem(x*16+8, y*16+8, 1, 2, Items.get("Wood"));
 			level.dropItem(x*16+8, y*16+8, 1, 2, Items.get("Acorn"));

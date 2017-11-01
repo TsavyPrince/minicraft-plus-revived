@@ -13,23 +13,23 @@ import minicraft.core.Renderer;
 import minicraft.core.io.Settings;
 import minicraft.core.Updater;
 import minicraft.core.World;
-import minicraft.entity.Arrow;
-import minicraft.entity.Entity;
-import minicraft.entity.ItemEntity;
-import minicraft.entity.Spark;
-import minicraft.entity.furniture.Chest;
-import minicraft.entity.furniture.Crafter;
-import minicraft.entity.furniture.DeathChest;
-import minicraft.entity.furniture.DungeonChest;
-import minicraft.entity.furniture.Lantern;
-import minicraft.entity.furniture.Spawner;
-import minicraft.entity.mob.AirWizard;
-import minicraft.entity.mob.EnemyMob;
-import minicraft.entity.mob.Mob;
-import minicraft.entity.mob.Player;
-import minicraft.entity.mob.RemotePlayer;
-import minicraft.entity.particle.Particle;
-import minicraft.entity.particle.TextParticle;
+import minicraft.level.entity.Arrow;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.ItemEntity;
+import minicraft.level.entity.Spark;
+import minicraft.level.entity.furniture.Chest;
+import minicraft.level.entity.furniture.Crafter;
+import minicraft.level.entity.furniture.DeathChest;
+import minicraft.level.entity.furniture.DungeonChest;
+import minicraft.level.entity.furniture.Lantern;
+import minicraft.level.entity.furniture.Spawner;
+import minicraft.level.entity.mob.AirWizard;
+import minicraft.level.entity.mob.EnemyMob;
+import minicraft.level.entity.mob.Mob;
+import minicraft.level.entity.mob.Player;
+import minicraft.level.entity.mob.RemotePlayer;
+import minicraft.level.entity.particle.Particle;
+import minicraft.level.entity.particle.TextParticle;
 import minicraft.item.Inventory;
 import minicraft.item.Item;
 import minicraft.item.PotionType;
@@ -187,7 +187,7 @@ public class Save {
 	
 	private void writeServerConfig(String filename, MinicraftServer server) {
 		data.add(String.valueOf(server.getPlayerCap()));
-		//data.add(String.join(":", server.getOpNames().toArray(new String[0])));
+		//data.addEntity(String.join(":", server.getOpNames().toArray(new String[0])));
 		
 		writeToFile(location + filename + extension, data);
 	}
@@ -234,7 +234,7 @@ public class Save {
 		data.add(String.valueOf(player.health));
 		data.add(String.valueOf(player.armor));
 		data.add(String.valueOf(player.score));
-		//data.add(String.valueOf(player.ac));
+		//data.addEntity(String.valueOf(player.ac));
 		data.add("25"); // TODO filler; remove this, but make sure not to break the Load class's LoadPlayer() method while doing so.
 		data.add(String.valueOf(Game.currentLevel));
 		data.add(Settings.getIdx("mode") + (Game.isMode("score")?";"+Updater.scoreTime+";"+Settings.get("scoretime"):""));
@@ -308,7 +308,7 @@ public class Save {
 			return "";
 		
 		if(!isLocalSave)
-			extradata.append(":").append(e.eid);
+			extradata.append(":").append(e.getEid());
 		
 		if(!isLocalSave && e instanceof RemotePlayer) {
 			RemotePlayer rp = (RemotePlayer)e;

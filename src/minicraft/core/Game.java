@@ -7,7 +7,7 @@ import minicraft.core.io.InputHandler;
 import minicraft.core.io.Localization;
 import minicraft.core.io.Settings;
 import minicraft.core.io.Sound;
-import minicraft.entity.mob.Player;
+import minicraft.level.entity.mob.Player;
 import minicraft.level.Level;
 import minicraft.level.tile.Tiles;
 import minicraft.network.MinicraftClient;
@@ -91,7 +91,7 @@ public class Game {
 		Sound.init();
 		
 		World.resetGame(); // "half"-starts a new game, to set up initial variables
-		player.eid = 0;
+		player.getEid() = 0;
 		new Load(true); // this loads any saved preferences.
 		
 		

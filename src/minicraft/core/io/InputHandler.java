@@ -410,7 +410,7 @@ public class InputHandler implements /*MouseListener, */KeyListener {
 		public boolean click, down;
 
 		public Mouse() {
-			mouse.add(this);
+			mouse.addEntity(this);
 		}
 
 		public void toggle(boolean clickd) {

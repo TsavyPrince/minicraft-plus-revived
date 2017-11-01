@@ -12,9 +12,9 @@ import minicraft.core.Game;
 import minicraft.core.io.Settings;
 import minicraft.core.Updater;
 import minicraft.core.World;
-import minicraft.entity.Entity;
-import minicraft.entity.furniture.*;
-import minicraft.entity.mob.*;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.furniture.*;
+import minicraft.level.entity.mob.*;
 import minicraft.item.ArmorItem;
 import minicraft.item.Inventory;
 import minicraft.item.Item;
@@ -242,7 +242,7 @@ public class LegacyLoad {
 		}
 		
 		player.score = Integer.parseInt(data.get(6));
-		World.levels[Game.currentLevel].add(player);
+		World.levels[Game.currentLevel].addEntity(player);
 		
 		int mode;
 		if(modedata.contains(";")) {
@@ -353,7 +353,7 @@ public class LegacyLoad {
 					Mob mob = (Mob)newEntity;
 					mob.health = Integer.parseInt(info.get(2));
 					currentlevel = Integer.parseInt(info.get(info.size()-1));
-					World.levels[currentlevel].add(mob, x, y);
+					World.levels[currentlevel].addEntity(mob, x, y);
 				} else if(newEntity instanceof Chest) {
 					Chest chest = (Chest)newEntity;
 					boolean isDeathChest = chest instanceof DeathChest;
@@ -372,9 +372,9 @@ public class LegacyLoad {
 							String[] aitemData = (itemData + ";1").split(";"); // this appends ";1" to the end, meaning one item, to everything; but if it was already there, then it becomes the 3rd element in the list, which is ignored.
 							StackableItem stack = (StackableItem)Items.get(aitemData[0]);
 							stack.count = Integer.parseInt(aitemData[1]);
-							chest.inventory.add(stack);
+							chest.inventory.addEntity(stack);
 						} else {
-							chest.inventory.add(item);
+							chest.inventory.addEntity(item);
 						}*/
 					}
 					
@@ -385,18 +385,18 @@ public class LegacyLoad {
 					}
 					
 					currentlevel = Integer.parseInt(info.get(info.size() - 1));
-					World.levels[currentlevel].add(chest instanceof DeathChest ? (DeathChest)chest : chest instanceof DungeonChest ? (DungeonChest)chest : chest, x, y);
+					World.levels[currentlevel].addEntity(chest instanceof DeathChest ? (DeathChest)chest : chest instanceof DungeonChest ? (DungeonChest)chest : chest, x, y);
 				}
 				else if(newEntity instanceof Spawner) {
 					Spawner egg = new Spawner((MobAi)getEntity(info.get(2), player, Integer.parseInt(info.get(3))));
 					//egg.lvl = Integer.parseInt(info.get(3));
 					//egg.initMob((MobAi)getEntity(info.get(2), player, info.get(3)));
 					currentlevel = Integer.parseInt(info.get(info.size() - 1));
-					World.levels[currentlevel].add(egg, x, y);
+					World.levels[currentlevel].addEntity(egg, x, y);
 				}
 				else {
 					currentlevel = Integer.parseInt(info.get(2));
-					World.levels[currentlevel].add(newEntity, x, y);
+					World.levels[currentlevel].addEntity(newEntity, x, y);
 				}
 			} // end of entity not null conditional
 		}

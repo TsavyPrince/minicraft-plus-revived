@@ -12,16 +12,16 @@ import minicraft.core.Game;
 import minicraft.core.Network;
 import minicraft.core.io.Settings;
 import minicraft.core.Updater;
-import minicraft.entity.Entity;
-import minicraft.entity.ItemEntity;
-import minicraft.entity.furniture.Chest;
-import minicraft.entity.furniture.Crafter;
-import minicraft.entity.furniture.DungeonChest;
-import minicraft.entity.furniture.Lantern;
-import minicraft.entity.furniture.Spawner;
-import minicraft.entity.furniture.Tnt;
-import minicraft.entity.mob.*;
-import minicraft.entity.particle.Particle;
+import minicraft.level.entity.Entity;
+import minicraft.level.entity.ItemEntity;
+import minicraft.level.entity.furniture.Chest;
+import minicraft.level.entity.furniture.Crafter;
+import minicraft.level.entity.furniture.DungeonChest;
+import minicraft.level.entity.furniture.Lantern;
+import minicraft.level.entity.furniture.Spawner;
+import minicraft.level.entity.furniture.Tnt;
+import minicraft.level.entity.mob.*;
+import minicraft.level.entity.particle.Particle;
 import minicraft.gfx.Point;
 import minicraft.gfx.Rectangle;
 import minicraft.gfx.Screen;
@@ -181,7 +181,7 @@ public class Level {
 						if (getTile(d.x / 16, d.y / 16) == Tiles.get("Obsidian Wall")) {
 							setTile(d.x / 16, d.y / 16, Tiles.get("Obsidian"));
 						}
-						add(d);
+						addEntity(d);
 						chestCount++;
 						addedchest = true;
 					}
@@ -194,7 +194,7 @@ public class Level {
 
 		if (level == 1) { // add the airwizard to the surface
 			AirWizard aw = new AirWizard(false);
-			add(aw, w * 16 / 2, h * 16 / 2);
+			addEntity(aw, w * 16 / 2, h * 16 / 2);
 		}
 		
 		if (Game.debug) printTileLocs(Tiles.get("Stairs Down"));
@@ -263,7 +263,7 @@ public class Level {
 				
 				
 				//if (Game.isValidServer() && e instanceof RemotePlayer && Game.server.getThreads().getAssociatedThread((RemotePlayer) e))
-				//	e.remove();
+				//	e.removeEntity();
 				if (e instanceof Mob) count++;
 				
 				if(e.getLevel() == null || e.getLevel() != this)
@@ -274,7 +274,7 @@ public class Level {
 		while(count > maxMobCount) {
 			Entity removeThis = (Entity)entities.toArray()[(random.nextInt(entities.size()))];
 			if(removeThis instanceof MobAi) {
-				remove(removeThis);
+				removeEntity(removeThis);
 				count--;
 			}
 		}
@@ -339,7 +339,7 @@ public class Level {
 			rany = y + random.nextInt(11) - 5;
 		} while(ranx >> 4 != x >> 4 || rany >> 4 != y >> 4);
 		ItemEntity ie = new ItemEntity(i, ranx, rany);
-		add(ie);
+		addEntity(ie);
 		return ie;
 	}
 
@@ -447,8 +447,9 @@ public class Level {
 		data[x + y * w] = (byte) val;
 	}
 	
-	public void add(Entity e) { if(e==null) return; add(e, e.x, e.y); }
-	public void add(Entity entity, int x, int y) {
+	/** This should ONLY be called by the Entity class. Use Entity.changeLevel() to add an entity to a level. */
+	public void addEntity(Entity e) { if(e==null) return; addEntity(e, e.x, e.y); }
+	public void addEntity(Entity entity, int x, int y) {
 		if(entity == null) return;
 		entity.setLevel(this, x, y);
 		
@@ -457,7 +458,8 @@ public class Level {
 			entitiesToAdd.add(entity);
 	}
 	
-	public void remove(Entity e) {
+	/** This should ONLY be called by the Entity class. Use Entity.changeLevel(null) to remove an entity. */
+	public void removeEntity(Entity e) {
 		entitiesToAdd.remove(e);
 		if(!entitiesToRemove.contains(e))
 			entitiesToRemove.add(e);
@@ -487,15 +489,15 @@ public class Level {
 			// spawns the enemy mobs; first part prevents enemy mob spawn on surface on first day, more or less.
 			if ((Updater.getTime() == Updater.Time.Night && Updater.pastDay1 || depth != 0) && EnemyMob.checkStartPos(this, nx, ny)) { // if night or underground, with a valid tile, spawn an enemy mob.
 				if(depth != -4) { // normal mobs
-					if (rnd <= 40) add((new Slime(lvl)), nx, ny);
-					else if (rnd <= 75) add((new Zombie(lvl)), nx, ny);
-					else if (rnd >= 85) add((new Skeleton(lvl)), nx, ny);
-					else add((new Creeper(lvl)), nx, ny);
+					if (rnd <= 40) addEntity((new Slime(lvl)), nx, ny);
+					else if (rnd <= 75) addEntity((new Zombie(lvl)), nx, ny);
+					else if (rnd >= 85) addEntity((new Skeleton(lvl)), nx, ny);
+					else addEntity((new Creeper(lvl)), nx, ny);
 				} else { // special dungeon mobs
-					if (rnd <= 40) add((new Snake(lvl)), nx, ny);
-					else if (rnd <= 75) add((new Knight(lvl)), nx, ny);
-					else if (rnd >= 85) add((new Snake(lvl)), nx, ny);
-					else add((new Knight(lvl)), nx, ny);
+					if (rnd <= 40) addEntity((new Snake(lvl)), nx, ny);
+					else if (rnd <= 75) addEntity((new Knight(lvl)), nx, ny);
+					else if (rnd >= 85) addEntity((new Snake(lvl)), nx, ny);
+					else addEntity((new Knight(lvl)), nx, ny);
 				}
 				
 				spawned = true;
@@ -503,9 +505,9 @@ public class Level {
 			
 			if(depth == 0 && PassiveMob.checkStartPos(this, nx, ny)) {
 				// spawns the friendly mobs.
-				if (rnd <= (Updater.getTime()==Updater.Time.Night?22:33)) add((new Cow()), nx, ny);
-				else if (rnd >= 68) add((new Pig()), nx, ny);
-				else add((new Sheep()), nx, ny);
+				if (rnd <= (Updater.getTime()==Updater.Time.Night?22:33)) addEntity((new Cow()), nx, ny);
+				else if (rnd >= 68) addEntity((new Pig()), nx, ny);
+				else addEntity((new Sheep()), nx, ny);
 				
 				spawned = true;
 			}
@@ -689,7 +691,7 @@ public class Level {
 					}
 				}
 				
-				add(sp);
+				addEntity(sp);
 				for(int rpt = 0; rpt < 2; rpt++) {
 					if (random.nextInt(2) != 0) continue;
 					Chest c = new Chest();
@@ -741,7 +743,7 @@ public class Level {
 					}
 					
 					// chance = -level
-					add(c, sp.x - 16, sp.y - 16);
+					addEntity(c, sp.x - 16, sp.y - 16);
 				}
 			}
 		}
