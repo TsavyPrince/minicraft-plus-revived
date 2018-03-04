@@ -127,6 +127,7 @@ public class TitleMenu extends Display {
 		boolean isblue = splashes[rand].contains("blue");
 		boolean isGreen = splashes[rand].contains("Green");
 		boolean isRed = splashes[rand].contains("Red");
+                boolean isOrange = splashes[rand].contains("Orange");
 		
 		/// this isn't as complicated as it looks. It just gets a color based off of count, which oscilates between 0 and 25.
 		int bcol = 5 - count / 5; // this number ends up being between 1 and 5, inclusive.
@@ -157,7 +158,9 @@ public class TitleMenu extends Display {
 		"Also play Alecraft!",
 		"Also play Hackcraft!",
 		"Also play MiniCrate!",
-		"Also play MiniCraft Mob Overload!",
+		"Also play MiniCraft Mob Overload!"
+                "Also play MysticCraft!",
+		"Also play PigeonCraft!",
 		"Only on PlayMinicraft.com!",
 		"Playminicraft.com is the bomb!",
 		"@MinicraftPlus on Twitter",
@@ -189,8 +192,8 @@ public class TitleMenu extends Display {
 		"Minecarts? What are those?",
 		"3D? What's that?",
 		"3.1D is the new thing!",
-		"Windows? I perfer Doors!",
-		//"Mouse? I perfer Keyboard!",
+		"Windows? I prefer Doors!",
+		//"Mouse? I prefer Keyboard!",
 		"Mouse not included!",
 		"No spiders included!",
 		"No Endermen included!",
@@ -257,7 +260,17 @@ public class TitleMenu extends Display {
 		"This is forwards!",
 		"Why is this blue?",
 		"Green is a nice color!",
-		"Red is my favorite color!"
+		"Red is my favorite color!",
+	        "Minicraft is cool!",
+                "Orange is a bad color!",
+                "8-bit color!",
+                "Day-night cycles!",
+                "No murdering giant birds!",
+	        "PigeonCraft isn't a ripoff!",
+                "*internal screaming*",
+                "Retro graphics!",
+                "No dying in a fire!",
+                "So many websites!",            
 		//"try with --debug",
 	};
 }
